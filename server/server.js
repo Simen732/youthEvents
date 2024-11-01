@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
+console.log("hallo");
 const corsOptions = {
     origin: "http://localhost:3000",
     methods: "GET, POST",
