@@ -1,16 +1,19 @@
-import { Routes ,Route} from "react-router-dom";
-import LandingPage from './pages/LandingPage';
-import Login from './pages/Login';
+import { Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Events from "./pages/Events";
+import Layout from "./Layout";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage></LandingPage>}></Route>
-      <Route path="/events" element={<Events></Events>}></Route>
-      <Route path="/login" element={<Login></Login>}></Route>
-      <Route path="/signUp" element={<SignUp></SignUp>}></Route>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<LandingPage />} />
+        <Route path="events" element={<Events />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signUp" element={<SignUp />} />
+      </Route>
     </Routes>
   );
 }

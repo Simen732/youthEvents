@@ -23,10 +23,10 @@
   font-style: normal;
 }
 
-@layer components {
+/* @layer components {
 
-  .something {
+  body {
     @apply;
   }
 
-}
+} */
