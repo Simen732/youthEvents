@@ -19,8 +19,15 @@ app.get("/", (req, res) => {
 
 app.post("/api/user", (req, res) => {
     const {email, password, repeatPassword} = req.body;
-    console.log(req.body, "REQ, BODY");
-    res.status(200).json({msg: "OK"})
+    if (password == repeatPassword) {
+        console.log(req.body, "REQ, BODY");
+        console.log("Passwords Match")
+    }
+    else{
+        console.log(req.body, "REQ, BODY");
+        console.log("Passwords do NOT   Match")
+
+    }
 })
 
 app.listen(4000);
