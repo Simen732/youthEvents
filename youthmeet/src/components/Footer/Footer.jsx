@@ -18,8 +18,10 @@ export default function Footer() {
                     </form>
                 </div>
             </div>
+            <div className="">
+                <hr className="w-5/6 bg-black p-0.5 "/>
+            </div>
             <div className="flex max-sm:flex-col sm:flex-col md:flex-row">
-                <hr className="w-5/6 bg-black p-0.5"/>
                 <div className="p-12 max-sm:p-8 sm:p-8">
                     <h3 className="font-oranienbaum text-2xl"><b>Find your way</b></h3>
                     <ul className="font-poppins">
@@ -48,7 +50,7 @@ export default function Footer() {
                     </ul>
                 </div>
             </div>
-            <p className="">&copy; YouthMeet {new Date().getFullYear()}. All rights reserved</p>
+            <p className="text-center">&copy; YouthMeet {new Date().getFullYear()}. All rights reserved</p>
         </div>
     )
 

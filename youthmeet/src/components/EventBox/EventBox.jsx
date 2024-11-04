@@ -47,7 +47,6 @@ export default function EventBox() {
             </div>
         </div>
         <button className="p-2 m-2 mb-8 bg-primary self-center rounded-xl w-3/5 text-2xl font-lato">Join Event</button>
-        <p className="bg-primary w-max p-4 self-end rounded-tl-3xl text-lg font-poppins">About event</p>
     </div>
     
     )
