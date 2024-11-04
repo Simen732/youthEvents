@@ -1,9 +1,11 @@
 import "../Navbar/Navbar.css"
+import UserAvatar from "../UserAvatar/UserAvatar"
 
 export default function Navbar() {
     return (
         <nav>
-            <ul>
+            <ul className="flex justify-evenly">
+                <li><a href="/userPage"><UserAvatar name="Lukasz Brzozowski"/></a></li>
                 <li><a href="/">Home</a></li>
                 <li><a href="/events">Events</a></li>
                 <li><a href="/login">Login</a></li>
