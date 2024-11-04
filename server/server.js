@@ -20,8 +20,24 @@ app.get("/", (req, res) => {
 })
 
 app.post("/api/user", (req, res) => {
-    const {email, password, repeatPassword} = req.body;
+    const {userName, email, password, repeatPassword} = req.body;
+    let slqQuery = 'insert into user (userName, email, password) values (?,?,?)'
+
+
+
     if (password == repeatPassword) {
+        db.query(slqQuery, [userName, email, password]).then(([rows]) => {
+            console.log(rows, "USERROWS");
+            if(rows.affectedRows === 1){
+                res.status(200).json({msg: "user created"})
+            } else{
+                res.status(200).json({msg: "Something happend, errorororoorrororroror"})
+            }
+        }).catch((error) => {
+            res.status(500).json({msg: `Server erorororororoororor${error}`})
+        })
+
+
         console.log(req.body, "REQ, BODY");
         console.log("Passwords Match")
     }
