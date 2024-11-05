@@ -7,5 +7,5 @@ function getAvatarUrl(name) {
 export default function UserAvatar({ name }) {
   const avatarUrl = getAvatarUrl(name);
 
-  return <img className="rounded-full" src={avatarUrl} alt={`${name}'s avatar`} />;
+  return <img className="rounded-full h-12" src={avatarUrl} alt={`${name}'s avatar`} />;
 }

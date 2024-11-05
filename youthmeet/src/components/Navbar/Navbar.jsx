@@ -4,7 +4,7 @@ import UserAvatar from "../UserAvatar/UserAvatar"
 export default function Navbar() {
     return (
         <nav>
-            <ul className="flex justify-evenly">
+            <ul className="flex justify-evenly *:text-2xl items-center">
                 <li><a href="/userPage"><UserAvatar name="Lukasz Brzozowski"/></a></li>
                 <li><a href="/">Home</a></li>
                 <li><a href="/events">Events</a></li>
