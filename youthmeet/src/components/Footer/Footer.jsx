@@ -18,8 +18,8 @@ export default function Footer() {
                     </form>
                 </div>
             </div>
-            <div className="">
-                <hr className="w-5/6 bg-black p-0.5 "/>
+            <div className="flex justify-center">
+                <hr className="border-none w-5/6 bg-black p-[1px] "/>
             </div>
             <div className="flex max-sm:flex-col sm:flex-col md:flex-row">
                 <div className="p-12 max-sm:p-8 sm:p-8">
