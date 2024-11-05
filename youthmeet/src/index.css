@@ -23,10 +23,18 @@
   font-style: normal;
 }
 
-/* @layer components {
+@layer components {
 
-  body {
-    @apply;
+  .main-bg {
+    @apply relative overflow-hidden;
   }
 
-} */
+  .main-bg::before {
+    content: '';
+    @apply absolute inset-0 bg-cover bg-center;
+    background-image: url('/public/img/peopleTogether.webp');
+    filter: brightness(0.7); /* Adjust brightness here */
+    z-index: 0;
+  }
+
+}
