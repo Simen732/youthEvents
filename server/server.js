@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const db = require ("./db/dbConfig.js");
+const { passwordStrength } = require('check-password-strength')
+
 
 const app = express();
 console.log("hallo");
@@ -44,6 +46,7 @@ app.post("/api/user", (req, res) => {
     else{
         console.log(req.body, "REQ, BODY");
         console.log("Passwords do NOT   Match")
+        console.log(`Passordet ditt er ${password} og det er ` + passwordStrength(password).value)
 
     }
 })
