@@ -17,7 +17,6 @@ export default function Events() {
                 <EventBox />
                 <EventBox />
                 <EventBox />
-                <EventBox />
             </div>
         </div>
     )
