@@ -27,15 +27,15 @@ export default function SignUp() {
     return (
         <>
             
-            <div className="flex flex-col items-center justify-center">
-                <div className="flex flex-col items-center justify-center shadow-2xl rounded-3xl p-4 max-sm:w-full max-sm:rounded-none sm:p-16">
+            <div className="flex flex-col items-center justify-center my-16 max-sm:my-16 ">
+                <div className="flex flex-col items-center justify-center shadow-2xl rounded-3xl p-4 max-sm:w-full max-sm:rounded-none sm:p-16 max-sm:shadow-none">
                     <h1 className="font-poppins text-6xl">Hello</h1> 
                     <h3 className="font-poppins text-xl">Create a new user</h3>
-                    <form className="flex flex-col items-center justify-center children:p-2 *:*:flex max-sm:w-5/6 max-sm:*:w-full max-sm:*:*:*:w-full" onSubmit={handleSubmit} action="">
+                    <form className="flex flex-col items-center justify-center children:p-2 *:*:flex max-sm:w-5/6 max-sm:*:w-full max-sm:*:*:*:w-full *:*:*:w-64" onSubmit={handleSubmit} action="">
                         <div>
                             <label className="font-lato" htmlFor="username">Your Username</label>
                             <div>
-                                <input className="w- font-lato transition border-2 outline-none hover:border-slate-500 focus:border-slate-500 rounded-xl p-2 mt-2" name="username" type="text" placeholder="Username" onChange={(e) => {setUsername(e.target.value)}}></input> 
+                                <input className="font-lato transition border-2 outline-none hover:border-slate-500 focus:border-slate-500 rounded-xl p-2 mt-2" name="username" type="text" placeholder="Username" onChange={(e) => {setUsername(e.target.value)}}></input> 
                             </div>
                         </div>
                         <div>
@@ -57,7 +57,7 @@ export default function SignUp() {
                             </div>
                         </div>
                         
-                        <button className="font-lato rounded-xl self-center m-4 bg-primary px-12 py-3" >Register User</button>
+                        <button className="font-lato rounded-xl self-center m-4 bg-primary px-16 py-3" >Register User</button>
                     </form>
                 </div>
                
