@@ -3,14 +3,15 @@ import UserAvatar from "../UserAvatar/UserAvatar"
 
 export default function Navbar() {
     return (
-        <nav>
-            <ul className="flex justify-evenly *:text-2xl items-center">
-                <li><a href="/userPage"><UserAvatar name="Lukasz Brzozowski"/></a></li>
-                <li><a href="/">Home</a></li>
-                <li><a href="/events">Events</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/signUp">Sign Up</a></li>
-            </ul>
+        <nav className="fixed w-full z-50 bg-slate-500 top-0 left-0">
+            <div className="m-2 flex justify-between *:text-2xl items-center">
+                <div><a href="/userPage"><UserAvatar name="Lukasz Brzozowski"/></a></div>
+                <div className="flex justify-between *:px-4">
+                    <div><a href="/">Home</a></div>
+                    <div><a href="/login">Login</a></div>
+                    <div><a href="/signUp">Sign Up</a></div>
+                </div>
+            </div>
         </nav>
     )
 }
