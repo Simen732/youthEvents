@@ -21,6 +21,7 @@
   src: url("./fonts/Oranienbaum/Oranienbaum-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @layer components {
@@ -34,7 +35,38 @@
     @apply absolute inset-0 bg-cover bg-center;
     background-image: url('/public/img/peopleTogether.webp');
     filter: brightness(0.7); /* Adjust brightness here */
+    filter: blur(px);
     z-index: 0;
+  }
+
+  .lowres-main-bg::before {
+    content: '';
+    @apply absolute inset-0 bg-cover bg-center;
+    background-image: url('/public/img/LowRespeopleTogether.webp');
+    filter: brightness(0.7); /* Adjust brightness here */
+    z-index: 0;
+  }
+
+  .smooth-gradient {
+    background: linear-gradient(
+      to bottom,
+      hsla(0, 0%, 0%, 0.64) 0%,
+      hsla(0, 0%, 0%, 0.634) 6.7%,
+      hsla(0, 0%, 0%, 0.616) 13.1%,
+      hsla(0, 0%, 0%, 0.589) 19%,
+      hsla(0, 0%, 0%, 0.553) 24.8%,
+      hsla(0, 0%, 0%, 0.51) 30.4%,
+      hsla(0, 0%, 0%, 0.461) 35.9%,
+      hsla(0, 0%, 0%, 0.408) 41.5%,
+      hsla(0, 0%, 0%, 0.352) 47.3%,
+      hsla(0, 0%, 0%, 0.294) 53.3%,
+      hsla(0, 0%, 0%, 0.237) 59.6%,
+      hsla(0, 0%, 0%, 0.181) 66.4%,
+      hsla(0, 0%, 0%, 0.128) 73.8%,
+      hsla(0, 0%, 0%, 0.079) 81.7%,
+      hsla(0, 0%, 0%, 0.036) 90.5%,
+      hsla(0, 0%, 0%, 0) 100%
+    );
   }
 
 }
