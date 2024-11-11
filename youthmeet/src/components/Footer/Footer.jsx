@@ -50,7 +50,7 @@ export default function Footer() {
                     </ul>
                 </div>
             </div>
-            <p className="text-center">&copy; YouthMeet {new Date().getFullYear()}. All rights reserved</p>
+            <p className="text-center my-8">&copy; YouthMeet {new Date().getFullYear()}. All rights reserved</p>
         </div>
     )
 

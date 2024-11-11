@@ -23,7 +23,7 @@ export default function Login() {
     return (
         <>
             
-            <div className="flex flex-col items-center justify-center my-16 max-sm:my-16 ">
+            <div className="flex flex-col items-center justify-center my-16 max-sm:my-16 mt-32">
                 <div className="flex flex-col items-center justify-center shadow-2xl rounded-3xl p-4 max-sm:w-full max-sm:rounded-none sm:p-16 max-sm:shadow-none">
                     <h1 className="font-poppins text-6xl">Hello</h1> 
                     <h3 className="font-poppins text-xl">Login</h3>
@@ -42,6 +42,11 @@ export default function Login() {
                         </div>
                         
                         <button className="font-lato rounded-xl self-center m-4 bg-primary px-16 py-3" >Register User</button>
+
+                        <div className="flex justify-evenly font-lato">
+                            <p>Don´t have an accout yet?&nbsp;</p>
+                            <a href="login" className="font-lato">Sign Up</a>
+                        </div>
                     </form>
                 </div>
                
