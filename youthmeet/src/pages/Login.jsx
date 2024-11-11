@@ -13,7 +13,7 @@ export default function Login() {
             {
                 email,
                 password
-            }).then((response) => {
+            }, {withCredentials: true}).then((response) => {
                 console.log(response);
             }).catch((error) => {
                 console.log("error", error);

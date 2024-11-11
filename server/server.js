@@ -21,6 +21,8 @@ const corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(cookieParser()); // Use cookie parser to manage cookies
+
 
 app.get("/", (req, res) => {
     res.send("Si Hei");
@@ -37,6 +39,7 @@ app.post("/api/user/signup", async (req, res) => {
             const [user] = await db.query(sqlQuery, [username, email, hashedPassword, "user"]);
             if (user.affectedRows === 1) {
                 res.status(200).json({ msg: "User created" });
+                
             } else {
                 res.status(500).json({ msg: "Error: User not created" });
             }
@@ -66,9 +69,19 @@ app.post("/api/user/login", async (req, res) => {
 
         if (isPasswordMatch) {
             // If passwords match, login is successful
-            res.status(200).json({ msg: "Login successful", user: { id: user.id, email: user.email, username: user.userName } });
             console.log("Du er nå logget inn")
             
+            const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+            
+            // Set token in an HTTP-only cookie
+            const cookie = res.cookie("authToken", token, {
+                httpOnly: true, // Prevent JavaScript access
+                // secure: process.env.NODE_ENV === "production", // Use HTTPS in production
+                maxAge: 3600000,
+                // sameSite: "lax" // 1 hour
+            });
+            res.status(200).json({ msg: "Login successful", user: { id: user.id, email: user.email, username: user.userName } });
+
         } else {
             // If passwords do not match
             res.status(401).json({ msg: "Invalid email or password" });
