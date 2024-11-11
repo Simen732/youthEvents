@@ -11,7 +11,7 @@ export default function SignUp() {
         e.preventDefault();
         console.log(email);
         axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/api/user`,
+            `${process.env.REACT_APP_BACKEND_URL}/api/user/signup`,
             {
                 username,
                 email,

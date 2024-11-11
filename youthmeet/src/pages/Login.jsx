@@ -9,7 +9,7 @@ export default function Login() {
         e.preventDefault();
         console.log(email);
         axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/api/user`,
+            `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
             {
                 email,
                 password
