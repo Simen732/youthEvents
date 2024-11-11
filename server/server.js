@@ -21,14 +21,17 @@ app.get("/", (req, res) => {
     res.send("Si Hei")
 })
 
-app.post("/api/user", (req, res) => {
-    const {userName, email, password, repeatPassword} = req.body;
-    let slqQuery = 'insert into user (userName, email, password) values (?,?,?)'
+app.post("/api/user", async (req, res) => {
+    const {username, email, password, repeatPassword} = req.body;
+    let slqQuery = 'insert into user (userName, email, password, roles_idroles) values (?,?,?, (select idroles from roles where name = ?))'
 
 
 
     if (password == repeatPassword) {
-        db.query(slqQuery, [userName, email, password]).then(([rows]) => {
+        console.log(slqQuery);
+        const [user] = await db.query(slqQuery, [username, email, password, "user"]);
+        console.log(user, "USER");
+        db.query(slqQuery, [username, email, password]).then(([rows]) => {
             console.log(rows, "USERROWS");
             if(rows.affectedRows === 1){
                 res.status(200).json({msg: "user created"})
@@ -39,9 +42,7 @@ app.post("/api/user", (req, res) => {
             res.status(500).json({msg: `Server erorororororoororor${error}`})
         })
 
-
-        console.log(req.body, "REQ, BODY");
-        console.log("Passwords Match")
+        console.log("dsadsadsadsadsadas")
     }
     else{
         console.log(req.body, "REQ, BODY");
