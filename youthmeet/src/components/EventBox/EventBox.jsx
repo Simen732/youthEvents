@@ -5,7 +5,7 @@ export default function EventBox() {
     const dateTime = "02.11.2024, 14.14";
     const address = "Brendsrudveien 22, 1383 Asker";
     const interested = 49;
-    const price = "0";
+    const price = 0;
 
     const getDisplayPrice = () => {
         return price > 0 ? `${price}kr` : "FREE";
@@ -46,7 +46,7 @@ export default function EventBox() {
                 <p className="pl-2 text-xl">{interested}</p>
             </div>
         </div>
-        <button className="p-2 m-2 mb-8 bg-primary self-center rounded-xl w-3/5 text-2xl font-lato">Join Event</button>
+        <a href="/openEvent" className="p-2 m-2 mb-8 bg-primary self-center rounded-xl w-3/5 text-2xl font-lato text-center">Join Event</a>
     </div>
     
     )
