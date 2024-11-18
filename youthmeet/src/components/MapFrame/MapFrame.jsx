@@ -65,7 +65,7 @@ export default function MapFrame({ address }) {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-xl font-bold mb-4">Map for: {address}</h2>
+      <h2 className="text-xl font-bold mb-4">{address}</h2>
       <div id="map" className="z-10 w-full h-96 rounded-lg overflow-hidden shadow-lg"></div>
     </div>
   );

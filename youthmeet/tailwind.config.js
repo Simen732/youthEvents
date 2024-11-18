@@ -28,7 +28,8 @@ module.exports = {
       },
       colors: {
         primary: "#EC9928",
-        secondary: "#3FD13D"
+        secondary: "#3FD13D",
+        primaryDark: "#7D5115"
       },
       screens: {
         'max-sm': {'max': '479px'}, // applies styles for screens up to 479px wide
