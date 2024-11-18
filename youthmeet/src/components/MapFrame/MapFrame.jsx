@@ -2,10 +2,25 @@ import React, { useEffect, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-export default function MapDropdown({ address }) {
-  const [mapVisible, setMapVisible] = useState(false); // State to toggle map visibility
+// Import Leaflet's default marker assets
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+export default function MapFrame({ address }) {
   const [map, setMap] = useState(null);
   const [coords, setCoords] = useState(null);
+
+  // Fix Leaflet's default marker icon issue
+  const DefaultIcon = L.icon({
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+  });
+
+  L.Marker.prototype.options.icon = DefaultIcon;
 
   // Fetch coordinates using OpenStreetMap's Nominatim API
   useEffect(() => {
@@ -33,7 +48,7 @@ export default function MapDropdown({ address }) {
 
   // Initialize the Leaflet map when coordinates are available
   useEffect(() => {
-    if (coords && mapVisible && !map) {
+    if (coords && !map) {
       const leafletMap = L.map("map").setView([coords.lat, coords.lon], 14);
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -46,31 +61,12 @@ export default function MapDropdown({ address }) {
 
       setMap(leafletMap);
     }
-  }, [coords, mapVisible, map]);
-
-  // Handle map resizing on visibility change
-  useEffect(() => {
-    if (mapVisible && map) {
-      setTimeout(() => {
-        map.invalidateSize(); // Fix the white screen issue by invalidating the size
-      }, 100); // Small delay to ensure container is visible
-    }
-  }, [mapVisible, map]);
+  }, [coords, map]);
 
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-xl font-bold mb-4">Map for: {address}</h2>
-
-      {/* Button to toggle the map */}
-      <button
-        onClick={() => setMapVisible((prev) => !prev)}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none"
-      >
-        {mapVisible ? "Close Map" : "Open Map"}
-      </button>
-
-      {/* Map container (conditionally rendered) */}
-      <div id="map" className={`w-full h-96 mt-4 rounded-lg overflow-hidden shadow-lg ${mapVisible ? "block" : "hidden"}`}></div>
+      <div id="map" className="z-10 w-full h-96 rounded-lg overflow-hidden shadow-lg"></div>
     </div>
   );
 }
