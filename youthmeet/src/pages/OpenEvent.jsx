@@ -3,7 +3,7 @@ import MapFrame from "../components/MapFrame/MapFrame";
 export default function OpenEvent() {
     const host = "Lukasz Brzozowski";
     const dateTime = "02.11.2024, 14.14";
-    const address = "Brendsrudveien 22";
+    const address = "Brendsrudveien 22, 1383 Asker";
     const interested = 49;
     const price = 0;
     const tags = ["Board Games", "Friends", "Dice", "Friends", "Dice", "Friends", "Dice", "Friends", "Dice"];
@@ -18,9 +18,9 @@ export default function OpenEvent() {
             <img className="shadow-lg mb-4 md:mb-0 md:max-w-sm" src="https://placehold.co/600x300" alt="Event" />
             <h1 className="font-oranienbaum text-5xl sm:text-6xl py-4 text-center md:text-left">DnD Meeting</h1>
           </div>
-            <div className="p-4">
-              <h1 className="text-2xl font-bold mb-4">Event Location</h1>
-              <MapFrame address={address} />
+          <div className="p-4">
+            <h1 className="text-2xl font-bold mb-4">Event Location</h1>
+            <MapFrame address={address} />
           </div>
     
           <div className="flex flex-col p-3">
