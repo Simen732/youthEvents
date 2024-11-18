@@ -10,7 +10,7 @@ export default function Footer() {
                     <p className="font-poppins m-1">Sign up for our <b>Newsletter</b></p>
                     <form className="bg-white rounded-xl flex w-56 justify-center items-center self-end m-1" action="" method="POST">
                         <input name="newsletterMail" className=" text-zinc-500 rounded-md font-oranienbaum p-2 focus:outline-none focus:text-zinc-800 hover:text-zinc-800" type="text" placeholder="Enter your email" />
-                        <button className="bg-gray-400 p-1 rounded-md">
+                        <button className="bg-white p-1 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>

@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Events from "./pages/Events";
 import OpenEvent from "./pages/OpenEvent";
+import UserPage from "./pages/UserPage";
 import Layout from "./Layout";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signUp" element={<SignUp />} />
         <Route path="openEvent" element={<OpenEvent />} />
+        <Route path="userPage" element={<UserPage />} />
       </Route>
     </Routes>
   );
