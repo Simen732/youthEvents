@@ -6,11 +6,9 @@ const { passwordStrength } = require('check-password-strength');
 const SECRET_KEY = process.env.SECRET_KEY;
 const saltRounds = 10;
 
-
 const authController = { 
     login: async (req, res) => {
         const { email, password } = req.body;
-
         try {
             // Check if the user exists with the given email
             const [rows] = await db.query('SELECT * FROM user WHERE email = ?', [email]);
@@ -50,9 +48,9 @@ const authController = {
         }
     
     }, signup: async (req, res) => {
+        console.log(req.body);
         const { username, email, password, repeatPassword } = req.body;
         const sqlQuery = 'INSERT INTO user (userName, email, password, roles_idroles) VALUES (?, ?, ?, (SELECT idroles FROM roles WHERE name = ?))';
-    
         if (password === repeatPassword) {
             const hashedPassword = await bcrypt.hash(password, saltRounds);
             
