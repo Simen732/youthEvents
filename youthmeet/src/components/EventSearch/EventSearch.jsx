@@ -38,7 +38,7 @@ export default function EventSearch() {
                 className="font-lato transition border-2 outline-none hover:border-primary focus:border-primary rounded-xl p-2 mt-2 w-full max-w-[900px]" 
                 name="username" 
                 type="text" 
-                placeholder="Username" 
+                placeholder="Event" 
             />
             <button 
                 onClick={() => setIsExpanded(!isExpanded)}

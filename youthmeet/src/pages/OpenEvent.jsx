@@ -4,6 +4,7 @@ import MapFrame from "../components/MapFrame/MapFrame";
 export default function OpenEvent() {
     const [showFullDescription, setShowFullDescription] = useState(false);
     const host = "Lukasz Brzozowski";
+    const title = "DnD Meeting"
     const dateTime = "02.11.2024, 14.14";
     const address = "Brendsrudveien 22, 1383 Asker";
     const interested = 49;
@@ -17,7 +18,7 @@ export default function OpenEvent() {
     const handleShare = () => {
       if (navigator.share) {
           navigator.share({
-              title: 'DnD Meeting',
+              title: title,
               text: description,
               url: window.location.href // Use the current page URL
           })
@@ -36,12 +37,13 @@ export default function OpenEvent() {
                 {/* Image and Title */}
                 <div className="lg:col-span-2">
                     <img className="w-full h-64 object-cover rounded-lg shadow-lg mb-4" src="https://placehold.co/600x300" alt="Event" />
-                    <h1 className="font-oranienbaum text-4xl sm:text-5xl font-bold mb-4">DnD Meeting</h1>
+                    <h1 className="font-oranienbaum text-4xl sm:text-5xl font-bold mb-4">{title}</h1>
                 </div>
 
                 {/* Event Details */}
-                <div className="order-first lg:order-none">
-                    <div className="bg-gray-100 p-6 rounded-lg shadow-lg mb-8">
+                <div className="relative h-screen"> {/* This is the sticky-container */}
+                    <div className="order-first lg:order-none sticky top-5 max-h-[calc(100vh-40px)] overflow-y-auto"> {/* This is the sticky-element */}
+                        <div className="bg-gray-100 p-6 rounded-lg shadow-lg mb-8">
                         <h2 className="font-oranienbaum font-bold text-2xl mb-4">Event Details</h2>
                         <div className="space-y-4">
                             <DetailItem icon="user" text={host} />
@@ -50,6 +52,7 @@ export default function OpenEvent() {
                             <DetailItem icon="users" text={`${interested} interested`} />
                             <DetailItem icon="tag" text={tags.join(" | ")} />
                             <DetailItem icon="currency" text={getDisplayPrice()} />
+                        </div>
                         </div>
                     </div>
                 </div>
