@@ -6,6 +6,7 @@ import Events from "./pages/Events";
 import OpenEvent from "./pages/OpenEvent";
 import UserPage from "./pages/UserPage";
 import Layout from "./Layout";
+import CreateEvent from "./pages/CreateEvent";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="signUp" element={<SignUp />} />
         <Route path="openEvent" element={<OpenEvent />} />
         <Route path="userPage" element={<UserPage />} />
+        <Route path="createEvent" element={<CreateEvent />} />
       </Route>
     </Routes>
   );
