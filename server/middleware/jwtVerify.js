@@ -1,17 +1,24 @@
 const jwt = require('jsonwebtoken');
 
 
-async function jwtVerify(){
+function jwtVerify(req,res,next){
+    
     const token = req.cookies.authToken
-
     // let userId;
-    console.log(token)
+    console.log("TOKEN", req.cookies)
     try {
         jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
-            console.log(decoded.id)
-            // userId = decoded.id;
+            console.log("decoded", decoded)
+            // let email = decoded.email;
+            // userId = de<coded.id;
+            // req.user = req.user || {};
+            // if(email) {
+                // req.user.email = email;
 
-            req.user.id = decoded.id;
+            // }
+
+            // console.log(req.user)
+
             
           }); 
     } catch (error) {

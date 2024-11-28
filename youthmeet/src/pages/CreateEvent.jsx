@@ -41,9 +41,9 @@ export default function CreateEvent() {
     try {
       // Send data to backend
       const response = await axios.post('http://localhost:4000/api/event/createEvent', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
+        // headers: {
+        //   'Content-Type': 'multipart/form-data'
+        // },
         withCredentials: true // This line enables sending credentials with the request
       });
 
