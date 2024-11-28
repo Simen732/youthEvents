@@ -88,15 +88,15 @@ export default function CreateEventTime({ eventDate, setEventDate, eventTime, se
 
         <div className="flex-1">
           <label className="block text-sm font-medium text-gray-700">Duration</label>
-          <div className="flex items-center">
-            <button type="button" onClick={handleDecrement} className="px-2 py-2 bg-orange-500 text-white rounded-l-md focus:outline-none">−</button>
+          <div className="flex items-center pt-1">
+            <button type="button" onClick={handleDecrement} className="px-2 py-2 bg-white text-primary rounded-l-md focus:outline-none border border-gray-300">−</button>
             <input
               type="text"
               value={formatDuration(eventDuration)}
               readOnly
               className="w-full text-center border-t border-b px-3 py-2 focus:outline-none"
             />
-            <button type="button" onClick={handleIncrement} className="px-2 py-2 bg-orange-500 text-white rounded-r-md focus:outline-none">+</button>
+            <button type="button" onClick={handleIncrement} className="px-2 py-2 bg-white text-primary rounded-r-md focus:outline-none border border-gray-300">+</button>
           </div>
         </div>
       </div>
