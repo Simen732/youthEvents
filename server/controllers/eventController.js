@@ -15,6 +15,7 @@ const eventController = {
     },
     createEvent: async (req, res) => {
         const {eventName, eventLocation, eventDate, eventPrice, eventDescription} = req.body
+        console.log(req.body)
     }
     // join: async (req, res) => {}
 }
