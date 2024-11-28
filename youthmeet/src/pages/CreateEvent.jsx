@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from "axios";
 import CreateEventTime from "../components/CreateEventTime/CreateEventTime";
 
 export default function CreateEvent() {
@@ -39,18 +40,19 @@ export default function CreateEvent() {
 
     try {
       // Send data to backend
-      const response = await fetch('http://localhost:4000/api/event/createEvent', {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('http://localhost:4000/api/event/createEvent', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true // This line enables sending credentials with the request
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         alert('Event created successfully!');
         // Reset the form or redirect as needed
       } else {
         alert('Failed to create event.');
         console.log(response);
-        
       }
     } catch (error) {
       console.error('Error creating event:', error);
