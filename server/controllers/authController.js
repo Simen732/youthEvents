@@ -51,15 +51,28 @@ const authController = {
     }, signup: async (req, res) => {
         console.log(req.body);
         const { username, email, password, repeatPassword } = req.body;
-        const sqlQuery = 'INSERT INTO user (userName, email, password, roles_idroles) VALUES (?, ?, ?, (SELECT idroles FROM roles WHERE name = ?))';
+        const insertQuery = 'INSERT INTO user (userName, email, password, roles_idroles) VALUES (?, ?, ?, (SELECT idroles FROM roles WHERE name = ?))';
+        const selectQuery = 'SELECT * FROM user WHERE email = ?';
+
         if (password === repeatPassword) {
             const hashedPassword = await bcrypt.hash(password, saltRounds);
-            
+        
             try {
-                const [user] = await db.query(sqlQuery, [username, email, hashedPassword, "user"]);
-                if (user.affectedRows === 1) {
-                    res.status(200).json({ msg: "User created" });
-                    
+                const [result] = await db.query(insertQuery, [username, email, hashedPassword, "user"]);
+                if (result.affectedRows === 1) {
+                    // Fetch the newly created user
+                    const [rows] = await db.query(selectQuery, [email]);
+                    const newUser = rows[0];
+
+                    // Create and set the token
+                    const token = jwt.sign({ id: newUser.id, email: newUser.email }, SECRET_KEY, { expiresIn: '1h' });
+                
+                    res.cookie("authToken", token, {
+                        httpOnly: true, 
+                        maxAge: 3600000,
+                    });
+                    console.log(token);
+                    res.status(200).json({ msg: "signup successful", user: { id: newUser.id, email: newUser.email, username: newUser.userName } });
                 } else {
                     res.status(500).json({ msg: "Error: User not created" });
                 }
