@@ -7,7 +7,7 @@ const {handleEventUpload} = require("../middleware/multerMiddleware");
 router.use(jwtVerify)
 
 router.post("/join", jwtVerify, eventController.join);
-router.post("/createEvent", jwtVerify, eventController.createEvent)
+router.post("/createEvent", jwtVerify, handleEventUpload, eventController.createEvent)
 
 
 module.exports = router;

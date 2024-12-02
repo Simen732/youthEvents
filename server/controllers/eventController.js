@@ -22,11 +22,15 @@ const eventController = {
         console.log(req.body, "req body")
 
         console.log(req.user);
+        let email = req.user.email;
+        console.log(email, "EMAIL CREATE EVENT");
         const sqlQuery = 'INSERT INTO events (eventName, eventLocation, eventDate, price, eventDescription, user_iduser, location_idlocation) VALUES (?, ?, ?, ?, ?, (select iduser from user where email = ?), (select idlocation from location where name = ?))';
         // const sqlQuery = 'INSERT INTO events (eventName, eventLocation, eventDate, price, eventDescription) VALUES (?, ?, ?, (SELECT idevent FROM events WHERE name = ?), ?)';
         try {
-            const [event] = await db.query(sqlQuery, [eventName, eventLocation, eventDate, price, eventDescription, req.user.email,  "Asker"]);
-            if (user.affectedRows === 1) {
+            const [event] = await db.query(sqlQuery, [eventName, eventLocation, eventDate, price, eventDescription, email,  "Asker"]);
+            console.log(event);
+           
+            if (event.affectedRows === 1) {
                 res.status(200).json({ msg: "event created" });
                 
             } else {
