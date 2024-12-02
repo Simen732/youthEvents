@@ -13,7 +13,8 @@ export default function SignUp() {
         e.preventDefault();
         axios.post(
             `${process.env.REACT_APP_BACKEND_URL}/api/user/signup`,
-            { username, email, password, repeatPassword }
+            { username, email, password, repeatPassword },
+            { withCredentials: true }
         ).then((response) => {
             console.log(response);
             navigate("/events")

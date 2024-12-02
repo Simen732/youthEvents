@@ -7,7 +7,7 @@ export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const mobileMenuRef = useRef(null);
   const location = useLocation();
-  let lastScrollY = window.pageYOffset;
+  let lastScrollY = window.scrollY;
 
   useEffect(() => {
     const handleScroll = () => {
