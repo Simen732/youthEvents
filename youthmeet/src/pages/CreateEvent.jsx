@@ -5,11 +5,16 @@ import CreateEventTime from "../components/CreateEventTime/CreateEventTime";
 export default function CreateEvent() {
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
+  const [eventPrice, setEventPrice] = useState('');
   const [eventDate, setEventDate] = useState(new Date().toISOString().split('T')[0]);
   const [eventTime, setEventTime] = useState(getCurrentTime());
   const [eventDuration, setEventDuration] = useState(120); // Default duration of 2 hours
   const [eventLocation, setEventLocation] = useState('');
   const [eventImage, setEventImage] = useState(null);
+  
+
+  console.log(eventDate, eventTime);
+  
 
   function getCurrentTime() {
     const now = new Date();
@@ -30,6 +35,7 @@ export default function CreateEvent() {
     const formData = new FormData();
     formData.append('name', eventName);
     formData.append('description', eventDescription);
+    formData.append('price', eventPrice);
     formData.append('date', eventDate);
     formData.append('time', eventTime);
     formData.append('duration', eventDuration);
@@ -85,6 +91,17 @@ export default function CreateEvent() {
             value={eventDescription}
             onChange={(e) => setEventDescription(e.target.value)}
             required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Price</label>
+          <input
+            type="number"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            placeholder="FREE"
+            value={eventPrice}
+            onChange={(e) => setEventPrice(e.target.value)}
           />
         </div>
 

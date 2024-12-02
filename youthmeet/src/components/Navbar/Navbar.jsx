@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import UserAvatar from "../UserAvatar/UserAvatar";
+import UserAvatar from "./UserAvatar/UserAvatar";
 import { useLocation } from 'react-router-dom';
 
 export default function Navbar() {
@@ -8,10 +8,12 @@ export default function Navbar() {
   const mobileMenuRef = useRef(null);
   const location = useLocation();
   let lastScrollY = window.scrollY;
+  let isAuthenticated = false;
+  const user = "Lukasz Brzozowski";
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.pageYOffset;
+      const currentScrollY = window.scrollY;
       setIsVisible(currentScrollY < lastScrollY || currentScrollY < 10);
       lastScrollY = currentScrollY;
     };
@@ -31,8 +33,10 @@ export default function Navbar() {
   const navItems = [
     { path: '/events', label: 'Events' },
     { path: '/createEvent', label: 'Create Event' },
-    { path: '/login', label: 'Login' },
-    { path: '/signUp', label: 'Sign Up' },
+    ...(isAuthenticated ? [] : [
+      { path: '/login', label: 'Login' },
+      { path: '/signUp', label: 'Sign Up' },
+    ]),
   ];
 
   return (
@@ -55,7 +59,7 @@ export default function Navbar() {
                   </a>
                 ))}
                 <a href="/userPage" className="flex items-center overflow-visible ml-4">
-                  <UserAvatar name="Lukasz Brzozowski" />
+                  <UserAvatar name={user} />
                 </a>
               </div>
             </div>
@@ -99,7 +103,7 @@ export default function Navbar() {
               </a>
             ))}
             <a href="/userPage" className="flex items-center px-3 py-2">
-              <UserAvatar name="Lukasz Brzozowski" />
+              <UserAvatar name={user} />
               <span className="ml-3 text-white">Profile</span>
             </a>
           </div>
