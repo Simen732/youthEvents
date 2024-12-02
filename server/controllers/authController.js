@@ -47,6 +47,7 @@ const authController = {
             res.status(500).json({ msg: `Server error: ${error}` });
         }
     
+
     }, signup: async (req, res) => {
         console.log(req.body);
         const { username, email, password, repeatPassword } = req.body;
