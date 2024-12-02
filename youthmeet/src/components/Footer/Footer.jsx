@@ -29,6 +29,7 @@ export default function Footer() {
                         <li><a href="/events">Events</a></li>
                         <li><a href="/login">Login</a></li>
                         <li><a href="/signUp">Sign Up</a></li>
+                        <li><a href="/createEvent">Create Event</a></li>
                     </ul>
                 </div>
                 <div className="p-12 max-sm:p-8 sm:p-8">
@@ -38,6 +39,7 @@ export default function Footer() {
                         <li><a href="/events">Events</a></li>
                         <li><a href="/login">Login</a></li>
                         <li><a href="/signUp">Sign Up</a></li>
+                        <li><a href="/createEvent">Create Event</a></li>
                     </ul>
                 </div>
                 <div className="p-12 max-sm:p-8 sm:p-8">
@@ -47,6 +49,7 @@ export default function Footer() {
                         <li><a href="/events">Events</a></li>
                         <li><a href="/login">Login</a></li>
                         <li><a href="/signUp">Sign Up</a></li>
+                        <li><a href="/createEvent">Create Event</a></li>
                     </ul>
                 </div>
             </div>
