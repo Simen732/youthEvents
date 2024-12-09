@@ -47,9 +47,9 @@ export default function CreateEvent() {
     try {
       // Send data to backend
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/user/signup`,
-        { withCredentials: true }
-      );  
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/createEvent`,
+            { withCredentials: true },
+      );
 
       if (response.status === 200) {
         alert('Event created successfully!');
