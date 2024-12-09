@@ -5,7 +5,7 @@ const { uuid } = require('uuidv4');
 // Configure multer for file storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadDir = 'uploads/eventImages';
+        const uploadDir = 'uploads/createEventImages';
         cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
