@@ -11,10 +11,6 @@ export default function CreateEvent() {
   const [eventDuration, setEventDuration] = useState(120); // Default duration of 2 hours
   const [eventLocation, setEventLocation] = useState('');
   const [eventImage, setEventImage] = useState(null);
-  
-
-  console.log(eventDate, eventTime);
-  
 
   function getCurrentTime() {
     const now = new Date();
@@ -46,10 +42,12 @@ export default function CreateEvent() {
 
     try {
       // Send data to backend
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/user/createEvent`,
-            { withCredentials: true },
-      );
+      const response = await axios.post('http://localhost:4000/api/event/createEvent', formData, {
+        // headers: {
+        //   'Content-Type': 'multipart/form-data'
+        // },
+        withCredentials: true // This line enables sending credentials with the request
+      });
 
       if (response.status === 200) {
         alert('Event created successfully!');
