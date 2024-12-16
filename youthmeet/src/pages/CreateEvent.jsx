@@ -45,9 +45,9 @@ export default function CreateEvent() {
     try {
       // Send data to backend
       const response = await axios.post('http://localhost:4000/api/event/createEvent', formData, {
-        // headers: {
-        //   'Content-Type': 'multipart/form-data'
-        // },
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
         withCredentials: true // This line enables sending credentials with the request
       });
 
@@ -97,9 +97,13 @@ export default function CreateEvent() {
           <input
             type="number"
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-            placeholder="FREE"
+            placeholder="0"
             value={eventPrice}
-            onChange={(e) => setEventPrice(e.target.value)}
+            min="0" // Prevents typing values below 0
+            onChange={(e) => {
+              const value = Math.max(0, Number(e.target.value)); // Ensures value is not less than 0
+              setEventPrice(value);
+            }}
           />
         </div>
 
