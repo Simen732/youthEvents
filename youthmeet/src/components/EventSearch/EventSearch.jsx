@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function EventSearch() {
+export default function EventSearch({ onFilter }) {
     const [tags, setTags] = useState([]);
     const [tagInput, setTagInput] = useState('');
     const [suggestedTags, setSuggestedTags] = useState([]);
@@ -8,7 +8,6 @@ export default function EventSearch() {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const tagInputRef = useRef(null);
-
     const possibleTags = ['Music', 'Sports', 'Art', 'Technology', 'Food', 'Outdoors'];
 
     useEffect(() => {
@@ -19,7 +18,10 @@ export default function EventSearch() {
         } else {
             setSuggestedTags([]);
         }
-    }, [tagInput, tags]);
+        
+        // Call onFilter whenever tags or distance change
+        onFilter(tags, distance);
+    }, [tagInput, tags, distance]); // Added distance to dependencies
 
     const handleAddTag = (tag) => {
         if (tag && !tags.includes(tag)) {

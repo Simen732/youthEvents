@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import CreateEventTime from "../components/CreateEventTime/CreateEventTime";
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateEvent() {
   const [eventName, setEventName] = useState('');
@@ -11,6 +12,7 @@ export default function CreateEvent() {
   const [eventDuration, setEventDuration] = useState(120); // Default duration of 2 hours
   const [eventLocation, setEventLocation] = useState('');
   const [eventImage, setEventImage] = useState(null);
+  const navigate = useNavigate();
 
   function getCurrentTime() {
     const now = new Date();
@@ -50,8 +52,8 @@ export default function CreateEvent() {
       });
 
       if (response.status === 200) {
-        alert('Event created successfully!');
-        // Reset the form or redirect as needed
+        // alert('Event created successfully!');
+        navigate("/events")
       } else {
         alert('Failed to create event.');
         console.log(response);
