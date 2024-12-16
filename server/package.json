@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@azure/storage-blob": "^12.26.0",
     "bcrypt": "^5.1.1",
     "check-password-strength": "^2.0.10",
     "cors": "^2.8.5",
@@ -11,6 +12,7 @@
     "mysql2-promise": "^0.1.4",
     "nodemon": "^3.1.7",
     "util": "^0.12.5",
+    "uuid": "^11.0.3",
     "uuidv4": "^6.2.13"
   },
   "scripts": {
