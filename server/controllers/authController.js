@@ -61,6 +61,7 @@ const authController = {
                 const [result] = await db.query(insertQuery, [username, email, hashedPassword, "user"]);
                 if (result.affectedRows === 1) {
                     // Fetch the newly created user
+                    
                     const [rows] = await db.query(selectQuery, [email]);
                     const newUser = rows[0];
 
@@ -83,7 +84,6 @@ const authController = {
             res.status(400).json({ msg: "Passwords do not match", strength: passwordStrength(password).value });
         }
     }
-
 };
 
 
