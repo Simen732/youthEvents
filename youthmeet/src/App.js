@@ -7,6 +7,7 @@ import OpenEvent from "./pages/OpenEvent";
 import UserPage from "./pages/UserPage";
 import Layout from "./Layout";
 import CreateEvent from "./pages/CreateEvent";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="openEvent" element={<OpenEvent />} />
         <Route path="userPage" element={<UserPage />} />
         <Route path="createEvent" element={<CreateEvent />} />
+        <Route path="404" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

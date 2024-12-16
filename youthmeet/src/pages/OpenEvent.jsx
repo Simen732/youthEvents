@@ -4,14 +4,14 @@ import axios from 'axios';
 import MapFrame from "../components/MapFrame/MapFrame";
 
 export default function OpenEvent() {
-  const { id } = useParams(); // Get event ID from URL
+  const { idevent } = useParams(); // Get event ID from URL
   const [eventData, setEventData] = useState(null);
 
   useEffect(() => {
     // Fetch event data from backend using ID
     const fetchEventData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/events/${id}`, { withCredentials: true });
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/events/${idevent}`, { withCredentials: true });
         setEventData(response.data);
       } catch (error) {
         console.error('Error fetching event data:', error);
@@ -19,11 +19,11 @@ export default function OpenEvent() {
     };
 
     fetchEventData();
-  }, [id]);
+  }, [idevent]);
 
-  if (!eventData) return <div>Loading...</div>;
+  if (!eventData) return <div className='mt-16'>Loading...</div>;
 
-  const { host, title, dateTime, address, interested, price, tags, description, longDescription } = eventData;
+  const { host, title, dateTime, address, interested, price, tags, description } = eventData;
 
   return (
     <div className="container mx-auto mt-16 p-4 max-w-6xl mb-24 font-lato">
