@@ -7,7 +7,7 @@ export default function EventBox({ event }) {
         address,
         interested,
         price,
-        imageUrl
+        imageUrl,
     } = event;
 
     const getDisplayPrice = () => {
