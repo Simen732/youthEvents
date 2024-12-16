@@ -2,12 +2,12 @@ import React from "react";
 
 export default function EventBox({ event }) {
     const {
-        title,
-        dateTime,
-        address,
+        eventName: title,
+        eventDate: dateTime,
+        eventLocation: address,
         interested,
         price,
-        imageUrl,
+        eventImage: imageUrl,
     } = event;
 
     const getDisplayPrice = () => {
