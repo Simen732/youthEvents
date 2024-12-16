@@ -32,6 +32,17 @@ app.get("/", (req, res) => {
     res.send("Si Hei");
 });
 
+app.get('/api/events', async (req, res) => {
+    try {
+      const [results] = await db.query('SELECT * FROM events'); // Use async/await
+      res.json(results); // Send JSON response
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching events');
+    }
+  });
+  
+
 app.listen(4000, () => {
     console.log("Server running on port 4000");
 });
