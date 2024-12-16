@@ -75,6 +75,18 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
+app.get('/api/events/:idevent', async (req, res) => {
+    try {
+      const event = await Event.findById(req.params.idevent);
+      if (!event) {
+        return res.status(404).json({ message: 'Event not found' });
+      }
+      res.json(event);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
 app.listen(4000, () => {
     console.log("Server running on port 4000");
 });
