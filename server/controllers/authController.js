@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require("../db/dbConfig.js");
 const { passwordStrength } = require('check-password-strength');
 const SECRET_KEY = process.env.SECRET_KEY;
-const saltRounds = 10;
+const saltRounds = 10; 
 
 const authController = { 
     login: async (req, res) => {
