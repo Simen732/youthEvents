@@ -2,19 +2,13 @@ import React, { useState } from 'react';
 
 export default function UserEvents() {
   const [events, setEvents] = useState([
-    { id: 1, title: 'Tech Conference 2025', date: '2025-03-15', status: 'active' },
-    { id: 2, title: 'Charity Gala', date: '2025-05-20', status: 'pending' },
-    { id: 3, title: 'Summer Music Festival', date: '2025-07-10', status: 'active' },
+    { id: 1, title: 'Tech Conference 2025', date: '2025-03-15'},
+    { id: 2, title: 'Charity Gala', date: '2025-05-20'},
+    { id: 3, title: 'Summer Music Festival', date: '2025-07-10'},
   ]);
 
   const deleteEvent = (id) => {
     setEvents(events.filter(event => event.id !== id));
-  };
-
-  const toggleEventStatus = (id) => {
-    setEvents(events.map(event => 
-      event.id === id ? { ...event, status: event.status === 'active' ? 'pending' : 'active' } : event
-    ));
   };
 
   return (
@@ -32,7 +26,6 @@ export default function UserEvents() {
                 key={event.id} 
                 event={event} 
                 onDelete={deleteEvent} 
-                onToggleStatus={toggleEventStatus} 
               />
             ))}
           </Section>
@@ -53,19 +46,18 @@ const Section = ({ title, children }) => (
   </section>
 );
 
-const EventCard = ({ event, onDelete, onToggleStatus }) => (
+const EventCard = ({ event, onEdit, onDelete}) => (
   <div className="bg-gray-50 rounded-lg p-4 flex justify-between items-center">
     <div>
       <h3 className="text-lg font-semibold">{event.title}</h3>
       <p className="text-sm text-gray-600">Date: {event.date}</p>
-      <p className="text-sm text-gray-600">Status: {event.status}</p>
     </div>
     <div className="space-x-2">
       <button 
-        onClick={() => onToggleStatus(event.id)}
+        onClick={() => onEdit(event.id)}
         className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition duration-300"
       >
-        {event.status === 'active' ? 'Deactivate' : 'Activate'}
+        Edit
       </button>
       <button 
         onClick={() => onDelete(event.id)}

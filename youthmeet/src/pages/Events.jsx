@@ -20,6 +20,23 @@ export default function Events() {
     .catch(error => console.error('Error fetching events:', error));
   }, []);
 
+  const handleDelete = (eventId) => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/events/${eventId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+      .then(response => {
+        if (response.ok) {
+          // Remove the event from both events and filteredEvents
+          setEvents(prevEvents => prevEvents.filter(event => event.idevent !== eventId));
+          setFilteredEvents(prevEvents => prevEvents.filter(event => event.idevent !== eventId));
+        } else {
+          console.error('Failed to delete event');
+        }
+      })
+      .catch(error => console.error('Error deleting event:', error));
+  };
+
   // Function to filter events based on search criteria
   const handleFilter = (tags, distance) => {
     const filtered = events.filter(event => {
@@ -40,6 +57,7 @@ export default function Events() {
             key={event.idevent}
             event={event}
             onJoin={() => navigate(`/event/${event.idevent}`)} // Navigate to event page
+            onDelete={handleDelete}
           />
         ))}
       </div>
