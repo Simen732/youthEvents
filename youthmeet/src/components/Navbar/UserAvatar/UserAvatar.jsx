@@ -3,7 +3,7 @@ import UserAvatarHash from "../UserAvatar/UserAvatarHash/UserAvatarHash"
 
 function getAvatarUrl(name) {
   const backgroundColor = UserAvatarHash(name);
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${backgroundColor.substring(1)}&color=fff&size=64`;
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${backgroundColor.substring(1)}&color=000&size=64`;
 }
 
 export default function UserAvatar({ name }) {
