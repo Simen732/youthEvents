@@ -1,7 +1,7 @@
 
 
 export default function UserAvatarHash(str) {
-    const colors = ["#e51c23", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5"];
+    const colors = ["#F0F0F0", "#B2E0B2", "#FFDAB9", "#E6E6FA", "#FFFDD0"];
     let hash = 0;
   
     // Create a hash from the string

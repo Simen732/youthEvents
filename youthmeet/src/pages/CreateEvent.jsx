@@ -10,6 +10,7 @@ export default function CreateEvent() {
   const [eventDate, setEventDate] = useState(new Date().toISOString().split('T')[0]);
   const [eventTime, setEventTime] = useState(getCurrentTime());
   const [eventDuration, setEventDuration] = useState(120); // Default duration of 2 hours
+  const [eventTag, setEventTag] = useState('')
   const [eventLocation, setEventLocation] = useState('');
   const [eventImage, setEventImage] = useState(null);
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export default function CreateEvent() {
     formData.append('date', eventDate);
     formData.append('time', eventTime);
     formData.append('duration', eventDuration);
+    formData.append('tag', eventTag)
     formData.append('location', eventLocation);
     if (eventImage) {
       formData.append('image', eventImage);
@@ -118,6 +120,18 @@ export default function CreateEvent() {
         />
 
         <div>
+          <label className="block text-sm font-medium text-gray-700">Tag</label>
+          <input
+            type="text"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            placeholder="Tag"
+            value={eventTag}
+            onChange={(e) => setEventTag(e.target.value)}
+            required
+          />
+        </div>
+        
+        <div>
           <label className="block text-sm font-medium text-gray-700">Location</label>
           <input
             type="text"
@@ -128,6 +142,8 @@ export default function CreateEvent() {
             required
           />
         </div>
+
+       
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Upload Image</label>
