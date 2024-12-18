@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function CreateEvent() {
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const [eventPrice, setEventPrice] = useState('');
+  const [eventPrice, setEventPrice] = useState(0);
   const [eventDate, setEventDate] = useState(new Date().toISOString().split('T')[0]);
   const [eventTime, setEventTime] = useState(getCurrentTime());
   const [eventDuration, setEventDuration] = useState(120); // Default duration of 2 hours
@@ -130,7 +130,7 @@ export default function CreateEvent() {
             required
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700">Location</label>
           <input
