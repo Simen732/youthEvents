@@ -8,6 +8,7 @@ export default function Events() {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const navigate = useNavigate();
 
+  
   // Fetch all events once on component mount
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/events/`, { credentials: 'include' })
