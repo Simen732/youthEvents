@@ -18,7 +18,7 @@ const eventController = {
         
     },
     createEvent: async (req, res) => {
-        const {name, location, date, time, price, duration, description, imagePath} = req.body
+        const {name, location, date, time, price, duration, description, imagePath, fotball} = req.body
         console.log(req.body, "req body")
 
         const dateTime = `${date} ${time}`;
@@ -28,12 +28,12 @@ const eventController = {
         console.log(email, "EMAIL CREATE EVENT");
         const sqlQuery = `INSERT INTO events 
         (eventName, eventLocation, eventDate, price, eventDescription, 
-        user_iduser, location_idlocation, duration, eventImage) VALUES (?, ?, ?, ?, ?, 
+        user_iduser, location_idlocation, duration, eventImage, tags) VALUES (?, ?, ?, ?, ?, 
         (select iduser from user where email = ?), 
-        (select idlocation from location where name = ?), ?, ?)`;
+        (select idlocation from location where name = ?), ?, ?, ?)`;
         // const sqlQuery = 'INSERT INTO events (eventName, eventLocation, eventDate, price, eventDescription) VALUES (?, ?, ?, (SELECT idevent FROM events WHERE name = ?), ?)';
         try {
-            const [event] = await db.query(sqlQuery, [name, location, dateTime, price, description, email,  "Asker", duration, imagePath]);
+            const [event] = await db.query(sqlQuery, [name, location, dateTime, price, description, email,  "Asker", duration, imagePath, "Fotball, Outdoors"]);
             console.log(event);
            
             if (event.affectedRows === 1) {
