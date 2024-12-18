@@ -75,6 +75,16 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
+app.get('/api/events/delete', async (req, res) => {
+    try{
+        const [results] = await db.query('DELETE * FROM events');
+        res.json(results);
+    } catch (err) {
+        console.error(err)
+        res.status(500).send('Error deleting event');
+    }
+});
+
 app.get('/api/events/:idevent', async (req, res) => {
     try {
       const event = await Event.findById(req.params.idevent);
