@@ -93,7 +93,7 @@ app.get('/api/events/:idevent', async (req, res) => {
       }
       res.json(event);
     } catch (error) {
-      res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Server error:' + error });  
     }
   });
 
