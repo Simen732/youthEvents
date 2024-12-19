@@ -1,5 +1,4 @@
 const db = require("../db/dbConfig.js");
-const jwt = require('jsonwebtoken');
 
 
 const eventController = {
