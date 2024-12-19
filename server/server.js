@@ -18,7 +18,7 @@ const saltRounds = 10;
 
 const corsOptions = {
     origin: "http://localhost:3000",
-    methods: "GET, POST, DELETE", // Added DELETE method
+    methods: "GET, POST, DELETE",
     credentials: true
 };
 
@@ -43,6 +43,22 @@ async function uploadBlob(containerName, blobName, fileBuffer) {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload(fileBuffer, fileBuffer.length);
     return blockBlobClient.url;
+}
+
+// JWT Decoding Middleware
+function decodeToken(req, res, next) {
+    const token = req.cookies.jwt;
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
 }
 
 // File upload route
@@ -75,33 +91,46 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
-// Updated delete route for specific events
 app.delete('/api/events/:eventId', async (req, res) => {
-  try {
-    const eventId = req.params.eventId;
-    const [result] = await db.query('DELETE FROM events WHERE idevent = ?', [eventId]);
-    
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Event not found' });
+    try {
+        const eventId = req.params.eventId;
+        const [result] = await db.query('DELETE FROM events WHERE idevent = ?', [eventId]);
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+        
+        res.json({ message: 'Event deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        res.status(500).json({ message: 'Error deleting event' });
     }
-    
-    res.json({ message: 'Event deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting event:', error);
-    res.status(500).json({ message: 'Error deleting event' });
-  }
 });
 
 app.get('/api/events/:eventId', async (req, res) => {
     try {
-      const [event] = await db.query('SELECT * FROM events WHERE idevent = ?', [req.params.eventId]);
-      if (event.length === 0) {
-        return res.status(404).json({ message: 'Event not found' });
-      }
-      res.json(event[0]);
+        const [events] = await db.query('SELECT * FROM events WHERE idevent = ?', [req.params.eventId]);
+        
+        if (events.length === 0) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+        
+        res.json(events[0]);
     } catch (error) {
         console.error('Server error:', error);
         res.status(500).json({ message: 'Server error' });  
+    }
+});
+
+// Updated route to fetch user events using JWT
+app.get('/api/user/events', decodeToken, async (req, res) => {
+    try {
+        const userId = req.user.id; // Get user ID from decoded token
+        const [events] = await db.query('SELECT * FROM events WHERE user_iduser = ?', [userId]);
+        res.json(events);
+    } catch (error) {
+        console.error('Error fetching user events:', error);
+        res.status(500).json({ message: 'Error fetching user events' });
     }
 });
 
