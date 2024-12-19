@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const db = require("../db/dbConfig.js");
 const { passwordStrength } = require('check-password-strength');
@@ -26,14 +25,14 @@ const authController = {
                 // If passwords match, login is successful
                 console.log("Du er nå logget inn")
                 
-                const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
-                
+                const token = jwt.sign({ id: user.iduser, email: user.email }, SECRET_KEY, { expiresIn: '2h' });
+
                 // Set token in an HTTP-only cookie
                 const cookie = res.cookie("authToken", token, {
                     httpOnly: true, // Prevent JavaScript access
                     // secure: process.env.NODE_ENV === "production", // Use HTTPS in production
-                    maxAge: 3600000,
-                    // sameSite: "lax" // 1 hour
+                    maxAge: 7200000,
+                    // sameSite: "lax" // 10 hour
                 });
                 res.status(200).json({ msg: "Login successful", user: { id: user.id, email: user.email, username: user.userName } });
     

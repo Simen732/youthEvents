@@ -1,20 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const { passwordStrength } = require('check-password-strength');
-const bcrypt = require("bcrypt");
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const db = require("./db/dbConfig.js");
 const authRoutes = require("./routes/authRoutes.js");
 const eventRoutes = require("./routes/eventRoutes.js");
+const jwtVerify = require('./middleware/jwtVerify.js'); 
 
 const app = express();
-
-const SECRET_KEY = process.env.SECRET_KEY;
-const saltRounds = 10;
 
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -43,22 +38,6 @@ async function uploadBlob(containerName, blobName, fileBuffer) {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload(fileBuffer, fileBuffer.length);
     return blockBlobClient.url;
-}
-
-// JWT Decoding Middleware
-function decodeToken(req, res, next) {
-    const token = req.cookies.jwt;
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(401).json({ message: 'Invalid token' });
-    }
 }
 
 // File upload route
@@ -122,17 +101,27 @@ app.get('/api/events/:eventId', async (req, res) => {
     }
 });
 
-// Updated route to fetch user events using JWT
-app.get('/api/user/events', decodeToken, async (req, res) => {
+// Updated route to fetch user events using jwtVerify middleware
+app.get('/api/user/events', jwtVerify, async (req, res) => {
     try {
         const userId = req.user.id; // Get user ID from decoded token
         const [events] = await db.query('SELECT * FROM events WHERE user_iduser = ?', [userId]);
         res.json(events);
+        console.log(events)
     } catch (error) {
         console.error('Error fetching user events:', error);
         res.status(500).json({ message: 'Error fetching user events' });
     }
 });
+
+app.get('/api/user/status', jwtVerify, (req, res) => {
+    // If the token is valid and user is authenticated
+    res.status(200).json({
+      authenticated: true,
+      username: req.user.userName, // Assuming you store the username in the JWT payload
+      id: req.user.iduser
+    });
+  });
 
 app.listen(4000, () => {
     console.log("Server running on port 4000");
