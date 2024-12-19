@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-export default function MapFrame({ address }) {
+export default function MapFrame({ eventLocation }) {
   const [map, setMap] = useState(null);
   const [coords, setCoords] = useState(null);
 
@@ -26,7 +26,7 @@ export default function MapFrame({ address }) {
   useEffect(() => {
     const fetchCoordinates = async () => {
       const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-        address
+        eventLocation
       )}&format=json&limit=1`;
 
       try {
@@ -44,7 +44,7 @@ export default function MapFrame({ address }) {
     };
 
     fetchCoordinates();
-  }, [address]);
+  }, [eventLocation]);
 
   // Initialize the Leaflet map when coordinates are available
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function MapFrame({ address }) {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-xl font-bold mb-4">{address}</h2>
+      <h2 className="text-xl font-bold mb-4">{eventLocation}</h2>
       <div id="map" className="z-10 w-full h-96 rounded-lg overflow-hidden shadow-lg"></div>
     </div>
   );

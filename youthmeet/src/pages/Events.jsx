@@ -56,7 +56,7 @@ export default function Events() {
           <EventBox
             key={event.idevent}
             event={event}
-            onJoin={() => navigate(`/event/${event.idevent}`)} // Navigate to event page
+            onJoin={() => navigate(`/event/${event.idevent}`)}
             onDelete={handleDelete}
           />
         ))}

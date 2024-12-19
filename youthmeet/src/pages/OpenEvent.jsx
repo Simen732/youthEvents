@@ -15,6 +15,8 @@ export default function OpenEvent() {
         setEventData(response.data);
       } catch (error) {
         console.error('Error fetching event data:', error);
+        console.log('idevent from useParams:', idevent);
+        
       }
     };
 
@@ -23,7 +25,14 @@ export default function OpenEvent() {
 
   if (!eventData) return <div className='mt-16'>Loading...</div>;
 
-  const { host, title, dateTime, address, interested, price, tags, description } = eventData;
+  const { eventImage, eventName, eventDate, eventLocation, interested, price, eventTag, eventDescription, duration } = eventData;
+  console.log(eventData);
+  
+  const getInterested = () => {
+    return interested > 0 ? `${interested} people` : "None";
+};
+
+const displayInterested = getInterested();
 
   return (
     <div className="container mx-auto mt-16 p-4 max-w-6xl mb-24 font-lato">
@@ -32,10 +41,10 @@ export default function OpenEvent() {
         <div className="lg:col-span-2">
           <img
             className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
-            src={eventData.image || "https://placehold.co/600x300"}
+            src={eventData.eventImage || "https://placehold.co/600x300"}
             alt="Event"
           />
-          <h1 className="font-oranienbaum text-4xl sm:text-5xl font-bold mb-4">{title}</h1>
+          <h1 className="font-oranienbaum text-4xl sm:text-5xl font-bold mb-4">{eventName}</h1>
         </div>
 
         {/* Event Details */}
@@ -43,12 +52,13 @@ export default function OpenEvent() {
           <div className="order-first lg:order-none sticky top-5 max-h-[calc(100vh-40px)] overflow-y-auto">
             <div className="bg-gray-100 p-6 rounded-lg shadow-lg mb-8">
               <h2 className="font-oranienbaum font-bold text-2xl mb-4">Event Details</h2>
-              <p><strong>Host:</strong> {host}</p>
-              <p><strong>Date & Time:</strong> {dateTime}</p>
-              <p><strong>Address:</strong> {address}</p>
-              <p><strong>Interested:</strong> {interested} people</p>
-              <p><strong>Tags:</strong> {tags.join(", ")}</p>
-              <p><strong>Price:</strong> {price > 0 ? `${price}kr` : "FREE"}</p>
+              <p>Host: {}</p>
+              <p>Date & Time: {eventDate}</p>
+              <p>Duration: {duration/60 + " hours"}</p>
+              <p>Address: {eventLocation}</p>
+              <p>Interested: {displayInterested}</p>
+              <p>Tags: {eventTag}</p>
+              <p>Price: {price > 0 ? `${price}kr` : "FREE"}</p>
             </div>
           </div>
         </div>
@@ -57,14 +67,14 @@ export default function OpenEvent() {
         <div className="lg:col-span-2">
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg mb-8">
             <h2 className="font-oranienbaum font-bold text-2xl mb-4">Event Description</h2>
-            <p>{description}</p>
+            <p>{eventDescription}</p>
           </div>
         </div>
 
         {/* Map */}
         <div className="lg:col-span-3">
           <h2 className="font-oranienbaum font-bold text-2xl mb-4">Event Location</h2>
-          <MapFrame address={address} />
+          <MapFrame eventLocation={eventLocation} />
         </div>
       </div>
     </div>

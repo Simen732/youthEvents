@@ -17,7 +17,7 @@ function App() {
         <Route path="events" element={<Events />} />
         <Route path="login" element={<Login />} />
         <Route path="signUp" element={<SignUp />} />
-        <Route path="openEvent" element={<OpenEvent />} />
+        <Route path="/event/:idevent" element={<OpenEvent />} />
         <Route path="userPage" element={<UserPage />} />
         <Route path="createEvent" element={<CreateEvent />} />
         <Route path="404" element={<NotFoundPage />} />
