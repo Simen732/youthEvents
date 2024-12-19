@@ -8,7 +8,7 @@ const saltRounds = 10;
 
 const authController = { 
     login: async (req, res) => {
-        const { email, password } = req.body;
+        const { email, password} = req.body;
         try {
             // Check if the user exists with the given email
             const [rows] = await db.query('SELECT * FROM user WHERE email = ?', [email]);
