@@ -43,18 +43,22 @@ export default function UserEvents() {
         </div>
       </header>
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <Section title="Manage Your Events">
-            {events.map(event => (
-              <EventCard 
-                key={event.idevent} 
-                event={event} 
-                onDelete={handleDelete}
-                onEdit={handleEdit}
-              />
-            ))}
-          </Section>
-        </div>
+      <div className="px-4 py-6 sm:px-0">
+    <Section title="Manage Your Events">
+      {Array.isArray(events) && events.length > 0 ? (
+        events.map(event => (
+          <EventCard 
+            key={event.idevent} 
+            event={event} 
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
+        ))
+      ) : (
+        <p>No events found.</p> // Handle case where there are no events
+      )}
+    </Section>
+  </div>
       </main>
     </div>
   );
