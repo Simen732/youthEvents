@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserEvents() {
-  const [events, setEvents] = useState([
-    { id: 1, title: 'Tech Conference 2025', date: '2025-03-15'},
-    { id: 2, title: 'Charity Gala', date: '2025-05-20'},
-    { id: 3, title: 'Summer Music Festival', date: '2025-07-10'},
-  ]);
+  const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
 
-  const deleteEvent = (id) => {
-    setEvents(events.filter(event => event.id !== id));
+  useEffect(() => {
+    // Fetch user's events
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/events`, { credentials: 'include' })
+      .then(response => response.json())
+      .then(data => setEvents(data))
+      .catch(error => console.error('Error fetching events:', error));
+  }, []);
+
+  const handleDelete = (eventId) => {
+    if (window.confirm('Are you sure you want to delete this event?')) {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/events/${eventId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+        .then(response => {
+          if (response.ok) {
+            setEvents(prevEvents => prevEvents.filter(event => event.idevent !== eventId));
+          } else {
+            console.error('Failed to delete event');
+          }
+        })
+        .catch(error => console.error('Error deleting event:', error));
+    }
+  };
+
+  const handleEdit = (eventId) => {
+    // Navigate to the create event page with the event ID
+    navigate(`/create-event/${eventId}`);
   };
 
   return (
@@ -23,9 +47,10 @@ export default function UserEvents() {
           <Section title="Manage Your Events">
             {events.map(event => (
               <EventCard 
-                key={event.id} 
+                key={event.idevent} 
                 event={event} 
-                onDelete={deleteEvent} 
+                onDelete={handleDelete}
+                onEdit={handleEdit}
               />
             ))}
           </Section>
@@ -46,21 +71,21 @@ const Section = ({ title, children }) => (
   </section>
 );
 
-const EventCard = ({ event, onEdit, onDelete}) => (
+const EventCard = ({ event, onEdit, onDelete }) => (
   <div className="bg-gray-50 rounded-lg p-4 flex justify-between items-center">
     <div>
-      <h3 className="text-lg font-semibold">{event.title}</h3>
-      <p className="text-sm text-gray-600">Date: {event.date}</p>
+      <h3 className="text-lg font-semibold">{event.eventName}</h3>
+      <p className="text-sm text-gray-600">Date: {new Date(event.eventDate).toLocaleDateString()}</p>
     </div>
     <div className="space-x-2">
       <button 
-        onClick={() => onEdit(event.id)}
+        onClick={() => onEdit(event.idevent)}
         className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition duration-300"
       >
         Edit
       </button>
       <button 
-        onClick={() => onDelete(event.id)}
+        onClick={() => onDelete(event.idevent)}
         className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition duration-300"
       >
         Delete

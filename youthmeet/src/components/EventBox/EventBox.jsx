@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function EventBox({ event, onDelete }) {
+export default function EventBox({ event, onDelete, onJoin }) {
     const {
         eventName: title,
         eventDate: dateTime,
@@ -65,12 +65,12 @@ export default function EventBox({ event, onDelete }) {
             </div>
             
             <div className="px-4 pb-4">
-                <a 
-                    href="/openEvent" 
-                    className="block w-full bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out text-center"
+                <button 
+                onClick={onJoin}
+                className="block w-full bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out text-center"
                 >
                     Join Event
-                </a>
+                </button>
                 <button 
                     onClick={handleDelete}
                     className="block w-1/5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
