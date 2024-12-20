@@ -6,31 +6,46 @@ export default function UserStatus() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch user data from your API
         const fetchUserData = async () => {
             try {
-                const response = await fetch('/api/user');
-                const userData = await response.json();
-                setUser(userData);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/status`, {
+                    credentials: 'include'
+                });
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUser(userData.authenticated ? userData : null);
+                    console.log(response)
+                } else {
+                    console.error('Failed to fetch user data');
+                    setUser(null);
+                }
             } catch (error) {
                 console.error('Error fetching user data:', error);
+                setUser(null);
             }
         };
+        
 
         fetchUserData();
     }, []);
 
     const handleLogout = async () => {
         try {
-            await fetch('/api/logout', { method: 'POST' });
-            // Clear any local user state
-            setUser(null);
-            // Redirect to home page or login page
-            navigate('/');
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            if (response.ok) {
+                setUser(null);
+                navigate('/');
+            } else {
+                console.error('Logout failed');
+            }
         } catch (error) {
             console.error('Error logging out:', error);
         }
     };
+    
 
     return (
         <div className="bg-gray-100 min-h-screen font-lato mt-16">
@@ -42,15 +57,16 @@ export default function UserStatus() {
             <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div className="px-4 py-6 sm:px-0">
                     <div className="grid grid-cols-1 gap-6">
-                        <Section title="User Information">
-                            <p className="text-lg"><strong>Status:</strong> {user ? 'Logged In' : 'Not Logged In'}</p>
-                            {user && (
-                                <>
-                                    <p className="text-lg"><strong>Name:</strong> {user.name}</p>
-                                    <p className="text-lg"><strong>Email:</strong> {user.email}</p>
-                                </>
-                            )}
-                        </Section>
+                    <Section title="User Information">
+                        <p className="text-lg"><strong>Status:</strong> {user ? 'Logged In' : 'Not Logged In'}</p>
+                        {user && (
+                            <>
+                                <p className="text-lg"><strong>Username:</strong> {user.username}</p>
+                                <p className="text-lg"><strong>Email:</strong> {user.email}</p>
+                            </>
+                        )}
+                    </Section>
+
                     </div>
                     <div className="mt-6 flex justify-end">
                         <button
