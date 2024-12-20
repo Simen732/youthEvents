@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UserSettings from '../components/UserSettings/UserSettings';
 import UserEvents from '../components/UserSettings/UserEvents';
+import UserStatus from '../components/UserSettings/UserStatus';
 
 export default function UserPage() {
   const [activeComponent, setActiveComponent] = useState('settings');
@@ -11,8 +12,8 @@ export default function UserPage() {
         return <UserSettings />;
       case 'events':
         return <UserEvents/>; // Placeholder for Profile component
-      case 'preferences':
-        return <div>Preferences Component</div>; // Placeholder for Preferences component
+      case 'status':
+        return <UserStatus/>; // Placeholder for Preferences component
       default:
         return <UserSettings />;
     }
@@ -41,7 +42,7 @@ export default function UserPage() {
           </li>
           <li>
             <button
-              onClick={() => setActiveComponent('preferences')}
+              onClick={() => setActiveComponent('status')}
               className="block w-full text-left px-4 py-2 hover:bg-gray-200"
             >
               Preferences

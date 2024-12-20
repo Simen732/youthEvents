@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-// Import Leaflet's default marker assets
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -10,7 +8,6 @@ export default function MapFrame({ eventLocation }) {
   const [map, setMap] = useState(null);
   const [coords, setCoords] = useState(null);
 
-  // Fix Leaflet's default marker icon issue
   const DefaultIcon = L.icon({
     iconUrl: markerIcon,
     shadowUrl: markerShadow,
@@ -22,7 +19,6 @@ export default function MapFrame({ eventLocation }) {
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
-  // Fetch coordinates using OpenStreetMap's Nominatim API
   useEffect(() => {
     const fetchCoordinates = async () => {
       const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
@@ -46,7 +42,6 @@ export default function MapFrame({ eventLocation }) {
     fetchCoordinates();
   }, [eventLocation]);
 
-  // Initialize the Leaflet map when coordinates are available
   useEffect(() => {
     if (coords && !map) {
       const leafletMap = L.map("map").setView([coords.lat, coords.lon], 14);
@@ -56,16 +51,31 @@ export default function MapFrame({ eventLocation }) {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(leafletMap);
 
-      // Add a marker to the map
       L.marker([coords.lat, coords.lon]).addTo(leafletMap);
 
       setMap(leafletMap);
     }
   }, [coords, map]);
 
+  const copyToClipboard = () => {
+    const mapsLink = `https://www.google.no/maps/place/${encodeURIComponent(eventLocation)}`;
+    navigator.clipboard.writeText(mapsLink).then(() => {
+      alert("Google Maps link copied to clipboard!");
+    });
+  };
+
+  const openInMaps = () => {
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventLocation)}`;
+    window.open(mapUrl, '_blank');
+  };
+
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-xl font-bold mb-4">{eventLocation}</h2>
+      <div className="flex items-center mb-4">
+        <h2 className="text-xl font-bold mr-4">{eventLocation}</h2>
+        <button onClick={copyToClipboard} className="bg-blue-500 text-white px-2 py-1 rounded mr-2">Copy</button>
+        <button onClick={openInMaps} className="bg-green-500 text-white px-2 py-1 rounded">Open in Google Maps</button>
+      </div>
       <div id="map" className="z-10 w-full h-96 rounded-lg overflow-hidden shadow-lg"></div>
     </div>
   );
