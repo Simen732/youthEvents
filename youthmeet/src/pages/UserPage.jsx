@@ -45,7 +45,7 @@ export default function UserPage() {
               onClick={() => setActiveComponent('status')}
               className="block w-full text-left px-4 py-2 hover:bg-gray-200"
             >
-              Preferences
+              Status
             </button>
           </li>
         </ul>

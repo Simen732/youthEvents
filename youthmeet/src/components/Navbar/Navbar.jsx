@@ -1,41 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import UserAvatar from "./UserAvatar/UserAvatar";
 import { useLocation } from 'react-router-dom';
-import Cookies from 'js-cookie'; // Make sure to install js-cookie
+import { useAuth } from '../../hooks/AuthContext';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState(null);
   const mobileMenuRef = useRef(null);
   const location = useLocation();
   let lastScrollY = window.scrollY;
 
-  // Function to check if user is authenticated
-  const checkAuthStatus = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/status`, {
-        credentials: 'include' // Include cookies with request
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setIsAuthenticated(data.authenticated);
-        setUsername(data.username);
-      } else {
-        setIsAuthenticated(false);
-        setUsername(null);
-      }
-    } catch (error) {
-      console.error('Error checking authentication status:', error);
-      setIsAuthenticated(false);
-      setUsername(null);
-    }
-  };
+  const { isAuthenticated, username } = useAuth();
 
   useEffect(() => {
-    checkAuthStatus(); // Check authentication status on component mount
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
