@@ -25,13 +25,13 @@ const authController = {
                 // If passwords match, login is successful
                 console.log("Du er nå logget inn")
                 
-                const token = jwt.sign({ id: user.iduser, email: user.email }, SECRET_KEY, { expiresIn: '2h' });
+                const token = jwt.sign({ id: user.iduser, email: user.email, username: user.userName }, SECRET_KEY, { expiresIn: '24h' });
 
                 // Set token in an HTTP-only cookie
                 const cookie = res.cookie("authToken", token, {
                     httpOnly: true, // Prevent JavaScript access
                     // secure: process.env.NODE_ENV === "production", // Use HTTPS in production
-                    maxAge: 7200000,
+                    maxAge: 86400000,
                     // sameSite: "lax" // 10 hour
                 });
                 res.status(200).json({ msg: "Login successful", user: { id: user.id, email: user.email, username: user.userName } });
@@ -65,11 +65,11 @@ const authController = {
                     const newUser = rows[0];
 
                     // Create and set the token
-                    const token = jwt.sign({ id: newUser.id, email: newUser.email }, SECRET_KEY, { expiresIn: '1h' });
+                    const token = jwt.sign({ id: newUser.id, email: newUser.email, username: newUser.userName }, SECRET_KEY, { expiresIn: '24h' });
                 
                     res.cookie("authToken", token, {
                         httpOnly: true, 
-                        maxAge: 3600000,
+                        maxAge: 86400000,
                     });
                     console.log(token);
                     res.status(200).json({ msg: "signup successful", user: { id: newUser.id, email: newUser.email, username: newUser.userName } });

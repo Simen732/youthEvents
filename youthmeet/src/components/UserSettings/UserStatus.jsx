@@ -14,7 +14,7 @@ export default function UserStatus() {
                 if (response.ok) {
                     const userData = await response.json();
                     setUser(userData.authenticated ? userData : null);
-                    console.log(response)
+                    console.log(userData)
                 } else {
                     console.error('Failed to fetch user data');
                     setUser(null);

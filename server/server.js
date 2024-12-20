@@ -118,10 +118,16 @@ app.get('/api/user/status', jwtVerify, (req, res) => {
     // If the token is valid and user is authenticated
     res.status(200).json({
       authenticated: true,
-      username: req.user.userName, // Assuming you store the username in the JWT payload
-      id: req.user.iduser
+      username: req.user.username,
+      email: req.user.email,
+      iduser: req.user.id
     });
   });
+
+  app.get('/api/logout', jwtVerify, (req, res) => {
+    
+  });
+
 
 app.listen(4000, () => {
     console.log("Server running on port 4000");
