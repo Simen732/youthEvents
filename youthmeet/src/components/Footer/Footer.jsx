@@ -33,23 +33,14 @@ export default function Footer() {
                     </ul>
                 </div>
                 <div className="p-12 max-sm:p-8 sm:p-8">
-                    <h3 className="font-oranienbaum text-2xl"><b>Find your way</b></h3>
+                    <h3 className="font-oranienbaum text-2xl"><b>Meet the team</b></h3>
                     <ul className="font-poppins">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/events">Events</a></li>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/signUp">Sign Up</a></li>
-                        <li><a href="/createEvent">Create Event</a></li>
-                    </ul>
-                </div>
-                <div className="p-12 max-sm:p-8 sm:p-8">
-                    <h3 className="font-oranienbaum text-2xl"><b>Find your way</b></h3>
-                    <ul className="font-poppins">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/events">Events</a></li>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/signUp">Sign Up</a></li>
-                        <li><a href="/createEvent">Create Event</a></li>
+                        <p><strong>Github</strong></p>
+                        <li><a href="https://github.com/LukeFromAfar">Lukas</a></li>
+                        <li><a href="https://github.com/simen732">Simen</a></li>
+                        <p><strong>LinkedIn</strong></p>
+                        <li><a href="https://www.linkedin.com/in/lukasz-brzozowski-4788562b2/">Lukas</a></li>
+                        <li><a href="https://www.linkedin.com/in/simen-waerstad-7195b5327/">Simen</a></li>
                     </ul>
                 </div>
             </div>
