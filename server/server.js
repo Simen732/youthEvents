@@ -124,9 +124,19 @@ app.get('/api/user/status', jwtVerify, (req, res) => {
     });
   });
 
-  app.get('/api/logout', jwtVerify, (req, res) => {
-    
+
+  app.post('/api/logout', jwtVerify, (req, res) => {
+    // Clear the authToken cookie by setting it to an empty value and expiring it
+    res.cookie('authToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      expires: new Date(0), // This sets the cookie to expire immediately
+      sameSite: 'strict'
+    });
+  
+    res.status(200).json({ message: 'Logged out successfully' });
   });
+  
 
 
 app.listen(4000, () => {
