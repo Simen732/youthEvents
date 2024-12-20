@@ -21,10 +21,8 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signUp" element={<SignUp />} />
         <Route path="/event/:idevent" element={<OpenEvent />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="userPage" element={<UserPage />} />
-          <Route path="createEvent" element={<CreateEvent />} />
-      </Route>
+        <Route path="userPage" element={<UserPage />} />
+        <Route path="createEvent" element={<CreateEvent />} />
         <Route path="404" element={<NotFoundPage />} />
       </Route>
     </Routes>
