@@ -1,25 +1,29 @@
 import { useState } from "react"
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../hooks/AuthContext";
 
 export default function Login() {
     const navigate = useNavigate();
+    const { setIsAuthenticated, setUsername } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
-            { email, password },
-            { withCredentials: true }
+          `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
+          { email, password },
+          { withCredentials: true }
         ).then((response) => {
-            console.log(response);
-            navigate("/events")
+          console.log(response);
+          setIsAuthenticated(true);
+          setUsername(response.data.username); // Assuming the API returns the username
+          navigate("/events");
         }).catch((error) => {
-            console.log("error", error);
-        })
-    }
+          console.log("error", error);
+        });
+      };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">

@@ -1,9 +1,11 @@
 import { useState } from "react"
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../hooks/AuthContext";
 
 export default function SignUp() {
     const navigate = useNavigate();
+    const { setIsAuthenticated, setUsername: setAuthUsername } = useAuth(); // Use the AuthContext
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,6 +19,8 @@ export default function SignUp() {
             { withCredentials: true }
         ).then((response) => {
             console.log(response);
+            setIsAuthenticated(true); // Set authentication state to true
+            setAuthUsername(username); // Set the username in the AuthContext
             navigate("/events")
         }).catch((error) => {
             console.log("error", error);
