@@ -15,7 +15,6 @@ const jwtVerify = async (req, res, next) => {
             
             // Set the entire decoded user object to req.user
             req.user = decoded;
-            console.log(req.user)
             next();
         });
     } catch (error) {
