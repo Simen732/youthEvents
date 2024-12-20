@@ -93,7 +93,6 @@ app.get('/api/events/:eventId', async (req, res) => {
         if (events.length === 0) {
             return res.status(404).json({ message: 'Event not found' });
         }
-        
         res.json(events[0]);
     } catch (error) {
         console.error('Server error:', error);
@@ -107,7 +106,6 @@ app.get('/api/user/events', jwtVerify, async (req, res) => {
         const userId = req.user.id; // Get user ID from decoded token
         const [events] = await db.query('SELECT * FROM events WHERE user_iduser = ?', [userId]);
         res.json(events);
-        console.log(events)
     } catch (error) {
         console.error('Error fetching user events:', error);
         res.status(500).json({ message: 'Error fetching user events' });
