@@ -26,6 +26,17 @@ export default function OpenEvent() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const year = date.getUTCFullYear();
+    
+    return `${hours}:${minutes} ${day}.${month}.${year}`;
+  };
   
   useEffect(() => {
     const fetchEventData = async () => {
@@ -40,9 +51,9 @@ export default function OpenEvent() {
     fetchEventData();
   }, [idevent]);
 
-  const checkEventStatus = async (eventId) => {
+  const checkEventStatus = async (idevent) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/eventStatus/${eventId}`, { withCredentials: true });
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/eventStatus/${idevent}`, { withCredentials: true });
       setIsJoined(response.data.isJoined);
     } catch (error) {
       console.error('Error checking event status:', error);
@@ -68,7 +79,6 @@ export default function OpenEvent() {
       console.error('Error joining/leaving event:', error);
     }
   };
-
 
   if (!eventData) return <div className='mt-16'>Loading...</div>;
 
@@ -139,7 +149,7 @@ export default function OpenEvent() {
               }}
             >
               <h2 className="font-oranienbaum font-bold text-xl mb-3">Event Details</h2>
-              <DetailItem icon="calendar" text={`Date & Time: ${eventDate}`} />
+              <DetailItem icon="calendar" text={`Date & Time: ${formatDate(eventDate)}`} />
               <DetailItem icon="clock" text={`Duration: ${duration / 60} hours`} />
               <DetailItem icon="location" text={`Address: ${eventLocation}`} />
               <DetailItem icon="users" text={`Interested: ${displayInterested}`} />
