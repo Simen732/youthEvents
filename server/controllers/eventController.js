@@ -27,7 +27,7 @@ const eventController = {
 
                 // Update the interested_count in the events table
                 await db.query(
-                    'UPDATE events SET interested_count = interested_count + 1 WHERE idevent = ?',
+                    'UPDATE events SET interestedCount = interestedCount + 1 WHERE idevent = ?',
                     [eventID]
                 );
 
