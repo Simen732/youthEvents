@@ -136,6 +136,92 @@ app.get('/api/user/status', jwtVerify, (req, res) => {
   });
   
 
+  app.post('/api/joinEvent', jwtVerify, async (req, res) => {
+    try {
+      const eventId = req.body.eventId;
+      const userId = req.user.id;
+  
+      console.log('Event ID:', eventId);
+      console.log('User ID:', userId);
+  
+      if (!eventId) {
+        return res.status(400).json({ message: 'Invalid event ID' });
+      }
+  
+      // Start transaction
+      await db.query('START TRANSACTION');
+  
+      // Check if the event exists
+      const [event] = await db.query('SELECT * FROM events WHERE idevent = ?', [eventId]);
+      if (event.length === 0) {
+        await db.query('ROLLBACK');
+        return res.status(404).json({ message: 'Event not found' });
+      }
+  
+      // Check if the user has already joined this specific event
+      const [existingAttendee] = await db.query(
+        'SELECT * FROM attendees WHERE events_idevent = ? AND user_iduser = ?',
+        [eventId, userId]
+      );
+  
+      if (existingAttendee.length > 0) {
+        await db.query('ROLLBACK');
+        return res.status(400).json({ message: 'You have already joined this event' });
+      }
+  
+      // Add the user to the attendees table for this event
+      await db.query(
+        'INSERT INTO attendees (events_idevent, user_iduser) VALUES (?, ?)',
+        [eventId, userId]
+      );
+  
+      // Increment the InterestedCount in the events table
+      await db.query(
+        'UPDATE events SET InterestedCount = InterestedCount + 1 WHERE idevent = ?',
+        [eventId]
+      );
+  
+      // Commit the transaction
+      await db.query('COMMIT');
+  
+      res.status(200).json({ message: 'Successfully joined the event' });
+    } catch (error) {
+      await db.query('ROLLBACK');
+      console.error('Error joining event:', error);
+      res.status(500).json({ message: 'Error joining event', error: error.message });
+    }
+  });
+  
+  
+    
+  
+  // Optional: Route to check if user has joined an event
+  app.get('/api/eventStatus', jwtVerify, async (req, res) => {
+    try {
+      const eventId = req.query.eventId; // Get eventId from query parameters
+      const userId = req.user.id;
+        
+      if (!eventId) {
+        return res.status(400).json({ message: 'Invalid event ID' });
+      }
+  
+      const [existingAttendee] = await db.query(
+        'SELECT * FROM attendees WHERE events_idevent = ? AND user_iduser = ?',
+        [eventId, userId]
+      );
+  
+      res.json({ 
+        hasJoined: existingAttendee.length > 0 
+      });
+    } catch (error) {
+      console.error('Error checking event join status:', error);
+      res.status(500).json({ message: 'Error checking join status', error: error.message });
+    }
+  });
+
+  
+  
+
 
 app.listen(4000, () => {
     console.log("Server running on port 4000");
