@@ -10,6 +10,11 @@ export default function EventBox({ event, onJoin }) {
         eventImage: imageUrl,
     } = event;
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+    };
+
     const getDisplayPrice = () => {
         return price > 0 ? `${price}kr` : "FREE";
     };
@@ -25,7 +30,7 @@ export default function EventBox({ event, onJoin }) {
                     alt={title} 
                 />
                 <div className="absolute top-0 left-0 bg-black bg-opacity-50 text-white px-2 py-1 m-2 rounded text-sm">
-                    {new Date(dateTime).toLocaleDateString()}
+                    {formatDate(dateTime)}
                 </div>
                 <div className="absolute bottom-0 right-0 bg-primary text-white px-4 py-2 rounded-tl-lg font-bold">
                     {displayPrice}

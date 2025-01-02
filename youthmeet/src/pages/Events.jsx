@@ -9,6 +9,7 @@ export default function Events() {
   const navigate = useNavigate();
 
   
+  
   // Fetch all events once on component mount
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/events/`, { credentials: 'include' })
@@ -38,14 +39,20 @@ export default function Events() {
   };
 
   // Function to filter events based on search criteria
-  const handleFilter = (tags, distance) => {
+  const handleFilter = ({ eventName, date, tag }) => {
     const filtered = events.filter(event => {
-      const matchesTags = tags.length === 0 || tags.some(tag => event.tags.includes(tag));
-      const matchesDistance = event.distance <= distance; // Assuming event has a distance property
-      return matchesTags && matchesDistance;
+        const nameMatch = event.eventName.toLowerCase().includes(eventName.toLowerCase());
+        const dateMatch = !date || new Date(event.eventDate).toDateString() === new Date(date).toDateString();
+        const tagMatch = !tag || (event.tags && event.tags.toLowerCase().includes(tag.toLowerCase())); // Check if event's tag includes the input tag (case insensitive)
+        return nameMatch && dateMatch && tagMatch;
     });
     setFilteredEvents(filtered);
-  };
+};
+
+
+
+
+
 
   return (
     <div className="flex items-center flex-col my-12 pt-16">
