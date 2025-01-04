@@ -86,19 +86,36 @@ app.delete('/api/events/:eventId', async (req, res) => {
     }
 });
 
-app.get('/api/events/:eventId', async (req, res) => {
+app.get('/api/events/:eventId', jwtVerify, async (req, res) => {
     try {
-        const [events] = await db.query('SELECT * FROM events WHERE idevent = ?', [req.params.eventId]);
+        const eventId = req.params.eventId;
+        const userId = req.user.id; // Get user ID from the JWT token
+
+        // Fetch event details
+        const [events] = await db.query('SELECT * FROM events WHERE idevent = ?', [eventId]);
         
         if (events.length === 0) {
             return res.status(404).json({ message: 'Event not found' });
         }
-        res.json(events[0]);
+
+        const event = events[0];
+
+        // Check if the user has joined this event
+        const [attendees] = await db.query(
+            'SELECT * FROM attendees WHERE events_idevent = ? AND user_iduser = ?',
+            [eventId, userId]
+        );
+
+        // Add hasJoined property to the event object
+        event.hasJoined = attendees.length > 0;
+
+        res.json(event);
     } catch (error) {
         console.error('Server error:', error);
         res.status(500).json({ message: 'Server error' });  
     }
 });
+
 
 // Updated route to fetch user events using jwtVerify middleware
 app.get('/api/user/events', jwtVerify, async (req, res) => {
@@ -191,6 +208,57 @@ app.get('/api/user/status', jwtVerify, (req, res) => {
       res.status(500).json({ message: 'Error joining event', error: error.message });
     }
   });
+
+
+  app.post('/api/leaveEvent', jwtVerify, async (req, res) => {
+    try {
+      const eventId = req.body.eventId;
+      const userId = req.user.id;
+  
+      console.log('Event ID:', eventId);
+      console.log('User ID:', userId);
+  
+      if (!eventId) {
+        return res.status(400).json({ message: 'Invalid event ID' });
+      }
+  
+      // Start transaction
+      await db.query('START TRANSACTION');
+  
+      // Check if the user has joined this event
+      const [attendee] = await db.query(
+        'SELECT * FROM attendees WHERE events_idevent = ? AND user_iduser = ?',
+        [eventId, userId]
+      );
+  
+      if (attendee.length === 0) {
+        await db.query('ROLLBACK');
+        return res.status(400).json({ message: 'You have not joined this event' });
+      }
+  
+      // Remove the user from the attendees table
+      await db.query(
+        'DELETE FROM attendees WHERE events_idevent = ? AND user_iduser = ?',
+        [eventId, userId]
+      );
+  
+      // Decrement the InterestedCount in the events table
+      await db.query(
+        'UPDATE events SET InterestedCount = GREATEST(InterestedCount - 1, 0) WHERE idevent = ?',
+        [eventId]
+      );
+  
+      // Commit the transaction
+      await db.query('COMMIT');
+  
+      res.status(200).json({ message: 'Successfully left the event' });
+    } catch (error) {
+      await db.query('ROLLBACK');
+      console.error('Error leaving event:', error);
+      res.status(500).json({ message: 'Error leaving event', error: error.message });
+    }
+  });
+  
   
   
     
