@@ -38,6 +38,7 @@ export default function UserStatus() {
             if (response.ok) {
                 setUser(null);
                 navigate('/');
+                window.location.reload();
             } else {
                 console.error('Logout failed');
             }

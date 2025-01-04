@@ -1,42 +1,45 @@
 export default function UserSettings() {
     return (
-        <div className="bg-gray-100 min-h-screen font-lato mt-16">
-          <header className="bg-white shadow">
-            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-              <h1 className="text-4xl font-oranienbaum text-primary">User Settings</h1>
-            </div>
-          </header>
-          <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <div className="px-4 py-6 sm:px-0">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <Section title="Profile Information">
-                  <InputField label="Name" type="text" name="name" />
-                  <InputField label="Email" type="email" name="email" />
-                </Section>
-                <Section title="Account Settings">
-                  <InputField label="New Password" type="password" name="password" />
-                  <InputField label="Confirm New Password" type="password" name="confirm-password" />
-                </Section>
-                <Section title="Preferences" fullWidth>
-                  <CheckboxField 
-                    id="notifications" 
-                    label="Receive email notifications" 
-                    description="Get notified about account activity via email." 
-                  />
-                  <CheckboxField 
-                    id="newsletter" 
-                    label="Subscribe to newsletter" 
-                    description="Receive our weekly newsletter with updates and offers." 
-                  />
-                </Section>
-              </div>
-              <div className="mt-6 flex justify-end">
-                <button type="button" className="bg-primary text-white px-8 py-3 rounded-lg text-lg font-poppins hover:brightness-110 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </main>
+        // <div className="bg-gray-100 min-h-screen font-lato mt-16">
+        //   <header className="bg-white shadow">
+        //     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        //       <h1 className="text-4xl font-oranienbaum text-primary">User Settings</h1>
+        //     </div>
+        //   </header>
+        //   <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        //     <div className="px-4 py-6 sm:px-0">
+        //       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        //         <Section title="Profile Information">
+        //           <InputField label="Name" type="text" name="name" />
+        //           <InputField label="Email" type="email" name="email" />
+        //         </Section>
+        //         <Section title="Account Settings">
+        //           <InputField label="New Password" type="password" name="password" />
+        //           <InputField label="Confirm New Password" type="password" name="confirm-password" />
+        //         </Section>
+        //         <Section title="Preferences" fullWidth>
+        //           <CheckboxField 
+        //             id="notifications" 
+        //             label="Receive email notifications" 
+        //             description="Get notified about account activity via email." 
+        //           />
+        //           <CheckboxField 
+        //             id="newsletter" 
+        //             label="Subscribe to newsletter" 
+        //             description="Receive our weekly newsletter with updates and offers." 
+        //           />
+        //         </Section>
+        //       </div>
+        //       <div className="mt-6 flex justify-end">
+        //         <button type="button" className="bg-primary text-white px-8 py-3 rounded-lg text-lg font-poppins hover:brightness-110 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+        //           Save Changes
+        //         </button>
+        //       </div>
+        //     </div>
+        //   </main>
+        // </div>
+        <div>
+          <h1>Under Construction</h1>
         </div>
     );
   }
