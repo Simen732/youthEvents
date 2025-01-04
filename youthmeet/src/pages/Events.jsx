@@ -13,13 +13,14 @@ export default function Events() {
   // Fetch all events once on component mount
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/events/`, { credentials: 'include' })
-    .then(response => response.json())
-    .then(data => {
-      setEvents(data);
-      setFilteredEvents(data); // Initialize filtered events
-    })
-    .catch(error => console.error('Error fetching events:', error));
+      .then(response => response.json())
+      .then(data => {
+        setEvents(data);
+        setFilteredEvents(data);
+      })
+      .catch(error => console.error('Error fetching events:', error));
   }, []);
+  
 
   const handleDelete = (eventId) => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/events/${eventId}`, {
