@@ -8,7 +8,7 @@ export default function OpenEvent() {
   const [eventData, setEventData] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [isJoined, setIsJoined] = useState(false);
+
 
     useEffect(() => {
       window.scrollTo(0, 0);
@@ -50,31 +50,16 @@ export default function OpenEvent() {
     };
     fetchEventData();
   }, [idevent]);
-
-  const checkEventStatus = async (idevent) => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/eventStatus/${idevent}`, { withCredentials: true });
-      setIsJoined(response.data.isJoined);
-    } catch (error) {
-      console.error('Error checking event status:', error);
-    }
-  };
+  
 
   const handleJoinLeave = async () => {
     try {
-      if (isJoined) {
+      if (eventData.hasJoined) {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/leaveEvent`, { eventId: idevent }, { withCredentials: true });
       } else {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/joinEvent`, { eventId: idevent }, { withCredentials: true });
       }
-      setIsJoined(!isJoined);
-      // Optionally, update the interested count
-      if (eventData) {
-        setEventData(prevData => ({
-          ...prevData,
-          interested: isJoined ? prevData.interested - 1 : prevData.interested + 1
-        }));
-      }
+      window.location.reload();
     } catch (error) {
       console.error('Error joining/leaving event:', error);
     }
@@ -82,8 +67,8 @@ export default function OpenEvent() {
 
   if (!eventData) return <div className='mt-16'>Loading...</div>;
 
-  const { eventImage, eventName, eventDate, eventLocation, interested, price, tags, eventDescription, duration } = eventData;
-  const displayInterested = interested > 0 ? `${interested} people` : "None";
+  const { eventImage, eventName, eventDate, eventLocation, price, tags, eventDescription, duration, InterestedCount, hasJoined } = eventData;
+  const displayInterested = InterestedCount > 0 ? `${InterestedCount} people` : "None";
 
   const handleShare = () => {
     if (navigator.share) {
@@ -180,8 +165,8 @@ export default function OpenEvent() {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                         </svg>
                     </button>
-                    <button onClick={handleJoinLeave} className={`px-6 py-2 ${isJoined ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary-dark'} text-white rounded-lg text-xl font-lato shadow-md transition-colors duration-300`}>
-                    {isJoined ? 'Leave' : 'Join'}
+                    <button onClick={handleJoinLeave} className={`px-6 py-2 ${hasJoined ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary-dark'} text-white rounded-lg text-xl font-lato shadow-md transition-colors duration-300`}>
+                    {hasJoined ? 'Leave' : 'Join'}
                     </button>
                   </div>
                 </div>
