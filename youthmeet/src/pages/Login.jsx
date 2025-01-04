@@ -20,6 +20,7 @@ export default function Login() {
           setIsAuthenticated(true);
           setUsername(response.data.username); // Assuming the API returns the username
           navigate("/events");
+          window.location.reload();
         }).catch((error) => {
           console.log("error", error);
         });

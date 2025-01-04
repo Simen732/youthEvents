@@ -6,7 +6,7 @@ export default function Footer() {
         <div className="w-full bg-secondary bottom-0">
             <div className="flex max-sm:flex-col sm:flex-col md:flex-row justify-between p-4">
                 <h2 className="font-oranienbaum text-6xl p-4">YouthMeet</h2>
-                <div className="p-2">
+                {/* <div className="p-2">
                     <p className="font-poppins m-1">Sign up for our <b>Newsletter</b></p>
                     <form className="bg-white rounded-xl flex w-56 justify-center items-center self-end m-1" action="" method="POST">
                         <input name="newsletterMail" className=" text-zinc-500 rounded-md font-oranienbaum p-2 focus:outline-none focus:text-zinc-800 hover:text-zinc-800" type="text" placeholder="Enter your email" />
@@ -16,7 +16,7 @@ export default function Footer() {
                             </svg>
                         </button>
                     </form>
-                </div>
+                </div> */}
             </div>
             <div className="flex justify-center">
                 <hr className="border-none w-5/6 bg-black p-[1px] "/>

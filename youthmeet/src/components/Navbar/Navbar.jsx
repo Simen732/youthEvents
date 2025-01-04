@@ -34,8 +34,7 @@ export default function Navbar() {
 
   const navItems = [
     { path: '/events', label: 'Events' },
-    { path: '/createEvent', label: 'Create Event' },
-    ...(isAuthenticated ? [] : [
+    ...(isAuthenticated ? [{ path: '/createEvent', label: 'Create Event' }] : [
       { path: '/login', label: 'Login' },
       { path: '/signUp', label: 'Sign Up' },
     ]),
