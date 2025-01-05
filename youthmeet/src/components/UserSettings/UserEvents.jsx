@@ -30,10 +30,10 @@ export default function UserEvents() {
     }
   };
 
-  // const handleEdit = (eventId) => {
-  //   // Navigate to the create event page with the event ID
-  //   navigate(`/create-event/${eventId}`);
-  // };
+  const handleEdit = (eventId) => {
+    // Navigate to the create event page with the event ID
+    navigate(`/create-event/${eventId}`);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen font-lato mt-16">
