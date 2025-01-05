@@ -55,9 +55,9 @@ export default function OpenEvent() {
   const handleJoinLeave = async () => {
     try {
       if (eventData.hasJoined) {
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/leaveEvent`, { eventId: idevent }, { withCredentials: true });
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/leave`, { eventId: idevent }, { withCredentials: true });
       } else {
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/joinEvent`, { eventId: idevent }, { withCredentials: true });
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/join`, { eventId: idevent }, { withCredentials: true });
       }
       window.location.reload();
     } catch (error) {
