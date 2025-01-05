@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import CreateEventTime from "../components/CreateEventTime/CreateEventTime";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useUserData } from '../hooks/useUserState';
 
 export default function CreateEvent() {
   const [eventName, setEventName] = useState('');
@@ -14,6 +15,16 @@ export default function CreateEvent() {
   const [eventLocation, setEventLocation] = useState('');
   const [eventImage, setEventImage] = useState(null);
   const navigate = useNavigate();
+
+  const { user, loading } = useUserData();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user || !user.authenticated) {
+    return <Navigate to="/login" />;
+  }
 
   function getCurrentTime() {
     const now = new Date();
