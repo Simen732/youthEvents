@@ -31,7 +31,7 @@ export default function UserStatus() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/logout`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/logout`, {
                 method: 'POST',
                 credentials: 'include'
             });
