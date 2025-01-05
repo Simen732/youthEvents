@@ -2,9 +2,21 @@ import React, { useState } from 'react';
 import UserSettings from '../components/UserSettings/UserSettings';
 import UserEvents from '../components/UserSettings/UserEvents';
 import UserStatus from '../components/UserSettings/UserStatus';
+import { Navigate } from 'react-router-dom';
+import { useUserData } from '../hooks/useUserState';
 
 export default function UserPage() {
   const [activeComponent, setActiveComponent] = useState('settings');
+
+  const { user, loading } = useUserData();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user || !user.authenticated) {
+    return <Navigate to="/login" />;
+  }
 
   const renderComponent = () => {
     switch (activeComponent) {
