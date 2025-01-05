@@ -9,7 +9,6 @@ import Layout from "./Layout";
 import CreateEvent from "./pages/CreateEvent";
 import NotFoundPage from "./pages/NotFoundPage";
 import { AuthProvider } from "./hooks/AuthContext";
-// import ProtectedRoute from "./hooks/ProtectedRoute";
 
 function App() {
   return (

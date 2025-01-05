@@ -90,6 +90,12 @@ export default function OpenEvent() {
 
   const displayPrice = getDisplayPrice();
 
+  const getDisplayTag = () => {
+    return tags === null ? "none" : tags;
+  };
+
+  const displayTag = getDisplayTag();
+
   return (
     <div className="container mx-auto mt-20 p-4 max-w-5xl mb-16 font-lato">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -101,7 +107,7 @@ export default function OpenEvent() {
           />
           <h1 className="font-oranienbaum text-3xl md:text-4xl font-bold mb-4">{eventName}</h1>
           
-          <div className="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
+          <div className="bg-gray-100 p-4 rounded-lg shadow-md">
             <h2 className="font-oranienbaum font-bold text-xl mb-3">Event Description</h2>
             <p>
               {eventDescription.length > 200
@@ -138,7 +144,7 @@ export default function OpenEvent() {
               <DetailItem icon="clock" text={`Duration: ${duration / 60} hours`} />
               <DetailItem icon="location" text={`Address: ${eventLocation}`} />
               <DetailItem icon="users" text={`Interested: ${displayInterested}`} />
-              <DetailItem icon="tag" text={`Tag: ${tags}`} />
+              <DetailItem icon="tag" text={`Tag: ${displayTag}`} />
               <DetailItem icon="currency" text={`Price: ${displayPrice}`} />
             </div>
           </div>

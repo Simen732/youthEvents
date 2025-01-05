@@ -35,10 +35,10 @@ export default function Footer() {
                 <div className="p-12 max-sm:p-8 sm:p-8">
                     <h3 className="font-oranienbaum text-2xl"><b>Meet the team</b></h3>
                     <ul className="font-poppins">
-                        <p><strong>Github</strong></p>
+                        <p className="underline">Github</p>
                         <li><a href="https://github.com/LukeFromAfar">Lukas</a></li>
                         <li><a href="https://github.com/simen732">Simen</a></li>
-                        <p><strong>LinkedIn</strong></p>
+                        <p className="underline">LinkedIn</p>
                         <li><a href="https://www.linkedin.com/in/lukasz-brzozowski-4788562b2/">Lukas</a></li>
                         <li><a href="https://www.linkedin.com/in/simen-waerstad-7195b5327/">Simen</a></li>
                     </ul>
@@ -47,6 +47,5 @@ export default function Footer() {
             <p className="text-center my-8">&copy; YouthMeet {new Date().getFullYear()}. All rights reserved</p>
         </div>
     )
-
 
 }
