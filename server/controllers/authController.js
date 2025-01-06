@@ -82,6 +82,23 @@ const authController = {
         } else {
             res.status(400).json({ msg: "Passwords do not match", strength: passwordStrength(password).value });
         }
+    }, status: (req, res) => {
+        res.status(200).json({
+            authenticated: true,
+            username: req.user.username,
+            email: req.user.email,
+            iduser: req.user.id
+        });
+    },
+
+    logout: (req, res) => {
+        res.cookie('authToken', '', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            expires: new Date(0),
+            sameSite: 'strict'
+        });
+        res.status(200).json({ message: 'Logged out successfully' });
     }
 };
 
