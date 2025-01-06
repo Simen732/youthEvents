@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MapFrame from "../components/MapFrame/MapFrame";
 
@@ -9,6 +9,7 @@ export default function OpenEvent() {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
     useEffect(() => {
       window.scrollTo(0, 0);
@@ -29,25 +30,29 @@ export default function OpenEvent() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/status`, {
-                credentials: 'include'
-            });
-            if (response.ok) {
-                const userData = await response.json();
-                setUser(userData.authenticated ? userData : null);
-            } else {
-                console.error('Failed to fetch user data');
-                setUser(null);
-            }
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-            setUser(null);
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/status`, {
+          credentials: 'include'
+        });
+        if (response.ok) {
+          const userData = await response.json();
+          if (!userData.authenticated) {
+            navigate('/login');
+          } else {
+            setUser(userData);
+          }
+        } else {
+          console.error('Failed to fetch user data');
+          navigate('/login');
         }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        navigate('/login');
+      }
     };
 
     fetchUserData();
-}, []);
+  }, [navigate]);
 
   
 
