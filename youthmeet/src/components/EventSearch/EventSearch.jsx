@@ -1,14 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export default function EventSearch({ onFilter }) {
     const [eventName, setEventName] = useState('');
     const [date, setDate] = useState('');
     const [tag, setTag] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
+    const searchButtonRef = useRef(null);
 
-    const handleSearch = () => {
-        onFilter({ eventName, date, tag }); // Send all search parameters
-    };
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+          if (event.key === 'Enter') {
+            console.log('Enter key pressed');
+            handleSearch();
+          }
+        };
+      
+        document.addEventListener('keydown', handleKeyDown);
+      
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+        };
+      }, [eventName, date, tag]); // Add dependencies here
+      
+      const handleSearch = () => {
+        console.log('Search function called');
+        console.log('Search params:', { eventName, date, tag });
+        onFilter({ eventName, date, tag });
+      };
+
+      
 
     return (
         <div className="w-full flex flex-col items-center justify-center py-12 px-4">
@@ -50,7 +70,7 @@ export default function EventSearch({ onFilter }) {
             <button 
                 onClick={handleSearch}
                 className="mt-4 bg-primary text-white px-6 py-2 rounded-md hover:bg-primary-dark transition"
-            >
+                >
                 Search
             </button>
         </div>

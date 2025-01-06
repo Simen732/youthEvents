@@ -8,7 +8,7 @@ export default function OpenEvent() {
   const [eventData, setEventData] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-
+  const [user, setUser] = useState(null);
 
     useEffect(() => {
       window.scrollTo(0, 0);
@@ -26,6 +26,30 @@ export default function OpenEvent() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/status`, {
+                credentials: 'include'
+            });
+            if (response.ok) {
+                const userData = await response.json();
+                setUser(userData.authenticated ? userData : null);
+            } else {
+                console.error('Failed to fetch user data');
+                setUser(null);
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            setUser(null);
+        }
+    };
+
+    fetchUserData();
+}, []);
+
+  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -53,17 +77,24 @@ export default function OpenEvent() {
   
 
   const handleJoinLeave = async () => {
-    try {
-      if (eventData.hasJoined) {
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/leave`, { eventId: idevent }, { withCredentials: true });
-      } else {
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/join`, { eventId: idevent }, { withCredentials: true });
-      }
-      window.location.reload();
-    } catch (error) {
-      console.error('Error joining/leaving event:', error);
+    if (!user) {
+        // Redirect to login page if user is not authenticated
+        window.location.href = '/login'; // Adjust the path as needed
+        return;
     }
-  };
+
+    try {
+        if (eventData.hasJoined) {
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/leave`, { eventId: idevent }, { withCredentials: true });
+        } else {
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/join`, { eventId: idevent }, { withCredentials: true });
+        }
+        window.location.reload();
+    } catch (error) {
+        console.error('Error joining/leaving event:', error);
+    }
+};
+
 
   if (!eventData) return <div className='mt-16'>Loading...</div>;
 

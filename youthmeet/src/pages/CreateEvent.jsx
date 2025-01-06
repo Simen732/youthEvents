@@ -65,7 +65,7 @@ export default function CreateEvent() {
       });
 
       if (response.status === 200) {
-        alert('Event created successfully!');
+        navigate("/events");
       } else {
         alert('Failed to create event.');
         console.log(response);
