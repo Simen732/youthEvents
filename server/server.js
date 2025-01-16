@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const { BlobServiceClient } = require("@azure/storage-blob");
 const userRoutes = require("./routes/userRoutes.js");
+const socketIo = require('socket.io');
 
 const db = require("./db/dbConfig.js");
 const authRoutes = require("./routes/authRoutes.js");
@@ -16,6 +17,29 @@ const corsOptions = {
     methods: "GET, POST, DELETE",
     credentials: true
 };
+
+const server = require('http').createServer(app);
+const io = socketIo(server, {
+    cors: {
+      origin: process.env.FRONTEND_URL,
+      methods: ["GET", "POST"]
+    }
+});
+
+io.on('connection', (socket) => {
+    console.log('New client connected');
+  
+    socket.on('joinEvent', (eventId) => {
+      socket.join(`event_${eventId}`);
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+    });
+});
+  
+
+app.set('io', io); 
 
 app.use(express.json());
 app.use(cors(corsOptions));

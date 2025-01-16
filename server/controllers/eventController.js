@@ -1,5 +1,5 @@
 const db = require("../db/dbConfig.js");
-
+const socketIo = require('socket.io');
 
 const eventController = {
     join: async (req, res) => {
@@ -116,6 +116,44 @@ const eventController = {
             res.status(500).json({ message: 'Server error' });  
         }
     },
+    addComment: async (req, res) => {
+        try {
+          const { eventId, comment } = req.body; // Get eventId and comment from the body
+          const userId = req.user.id; 
+          const io = req.app.get('io');
+        
+          // Use eventId from the request body
+          const [result] = await db.query(
+            'INSERT INTO comments (iduser, idevent, comment_text) VALUES (?, ?, ?)',
+            [userId, eventId, comment]
+          );
+        
+          if (result.affectedRows === 1) {
+            const [newComment] = await db.query(
+              'SELECT * FROM comments WHERE id = ?',
+              [result.insertId]
+            );
+            io.to(`event_${eventId}`).emit('commentAdded', result);
+            res.status(201).json({ newComment, message: "Comment added successfully" });
+          } else {
+            res.status(400).json({ message: "Failed to add comment" });
+          }
+        } catch (error) {
+          console.error("Error adding comment:", error);
+          res.status(500).json({ message: "Internal server error" });
+        }
+      },
+      
+
+    getComments: async (req, res) => {
+        try{
+            console.log("Hent comments")
+        }
+        catch (error){
+            console.log(error)
+        }
+    },
+
     leaveEvent: async (req, res) => {
         try {
             const eventId = req.body.eventId;
