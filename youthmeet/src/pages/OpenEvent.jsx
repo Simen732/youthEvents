@@ -9,11 +9,12 @@ export default function OpenEvent() {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [user, setUser] = useState(null);
+  const [comment, setComment] = useState('');
   const navigate = useNavigate();
 
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -54,8 +55,6 @@ export default function OpenEvent() {
     fetchUserData();
   }, [navigate]);
 
-  
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const hours = date.getUTCHours().toString().padStart(2, '0');
@@ -72,34 +71,45 @@ export default function OpenEvent() {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/events/${idevent}`, { withCredentials: true });
         setEventData(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching event data:', error);
       }
     };
     fetchEventData();
   }, [idevent]);
-  
 
   const handleJoinLeave = async () => {
     if (!user) {
-        // Redirect to login page if user is not authenticated
-        window.location.href = '/login'; // Adjust the path as needed
-        return;
+      window.location.href = '/login';
+      return;
     }
 
     try {
-        if (eventData.hasJoined) {
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/leave`, { eventId: idevent }, { withCredentials: true });
-        } else {
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/join`, { eventId: idevent }, { withCredentials: true });
-        }
-        window.location.reload();
+      if (eventData.hasJoined) {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/leave`, { eventId: idevent }, { withCredentials: true });
+      } else {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/events/join`, { eventId: idevent }, { withCredentials: true });
+      }
+      window.location.reload();
     } catch (error) {
-        console.error('Error joining/leaving event:', error);
+      console.error('Error joining/leaving event:', error);
     }
-};
+  };
 
+  const handleAddComment = async () => {
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/addComment`,
+        { comment, eventId: idevent }, // Send eventId in the body
+        { withCredentials: true }
+      );
+      setComment('');
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  };
+  
 
   if (!eventData) return <div className='mt-16'>Loading...</div>;
 
@@ -108,17 +118,16 @@ export default function OpenEvent() {
 
   const handleShare = () => {
     if (navigator.share) {
-        navigator.share({
-            title: eventName, 
-            url: window.location.href // Use the current page URL
-        })
-        .then(() => console.log('Share successful'))
-        .catch((error) => console.error('Error sharing:', error));
+      navigator.share({
+        title: eventName, 
+        url: window.location.href
+      })
+      .then(() => console.log('Share successful'))
+      .catch((error) => console.error('Error sharing:', error));
     } else {
-        // Fallback for browsers that do not support the Web Share API
-        alert('Sharing not supported on this browser. You can copy the link instead.');
+      alert('Sharing not supported on this browser. You can copy the link instead.');
     }
-};
+  };
 
   const getDisplayPrice = () => {
     return price > 0 ? `${price}kr` : "FREE";
@@ -162,13 +171,25 @@ export default function OpenEvent() {
             )}
           </div>
 
+          <div className="mt-6">
+            <h2 className="font-oranienbaum font-bold text-xl mb-3">Add a Comment</h2>
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="w-full p-2 border rounded-lg"
+              placeholder="Write your comment here..."
+            />
+            <button
+              onClick={handleAddComment}
+              className="mt-2 px-6 py-2 bg-primary text-white rounded-lg text-xl font-lato shadow-md hover:bg-primary-dark transition-colors duration-300"
+            >
+              Add Comment
+            </button>
+          </div>
         </div>
 
-
         <div className="md:col-span-1">
-          {/* Full-height background container */}
           <div className="bg-gray-100 h-full p-4 rounded-lg shadow-md">
-            {/* Sticky content inside */}
             <div
               className={`sticky transition-all duration-300 ease-in-out`}
               style={{
@@ -185,38 +206,32 @@ export default function OpenEvent() {
             </div>
           </div>
         </div>
-        
-
 
         <div className="md:col-span-3">
           <MapFrame eventLocation={eventLocation} />
         </div>
       </div>
       
-            <div className="fixed bottom-0 left-0 right-0 bg-white drop-shadow-lg shadow-black p-4 z-30">
-              <div className="container mx-auto max-w-6xl flex items-center justify-between">
-                <div className="text-xl font-bold">{getDisplayPrice()}</div>
-                <div className="space-x-4">
-                    <button 
-                        onClick={handleShare}
-                        className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg text-xl font-lato shadow-md hover:bg-gray-300 transition-colors duration-300 inline-flex items-center justify-center"
-                    >
-                        Share
-                        {/* Share Icon */}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 mx-2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-                        </svg>
-                    </button>
-                    <button onClick={handleJoinLeave} className={`px-6 py-2 ${hasJoined ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary-dark'} text-white rounded-lg text-xl font-lato shadow-md transition-colors duration-300`}>
-                    {hasJoined ? 'Leave' : 'Join'}
-                    </button>
-                  </div>
-                </div>
-            </div>
-
-
+      <div className="fixed bottom-0 left-0 right-0 bg-white drop-shadow-lg shadow-black p-4 z-30">
+        <div className="container mx-auto max-w-6xl flex items-center justify-between">
+          <div className="text-xl font-bold">{getDisplayPrice()}</div>
+          <div className="space-x-4">
+            <button 
+              onClick={handleShare}
+              className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg text-xl font-lato shadow-md hover:bg-gray-300 transition-colors duration-300 inline-flex items-center justify-center"
+            >
+              Share
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 mx-2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+              </svg>
+            </button>
+            <button onClick={handleJoinLeave} className={`px-6 py-2 ${hasJoined ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary-dark'} text-white rounded-lg text-xl font-lato shadow-md transition-colors duration-300`}>
+              {hasJoined ? 'Leave' : 'Join'}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    
   );
 }
 
@@ -237,6 +252,5 @@ function DetailItem({ icon, text }) {
       </svg>
       <p className="text-sm text-gray-800">{text}</p>
     </div>
-    
   );
 }
