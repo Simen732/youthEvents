@@ -12,6 +12,7 @@ router.post("/addComment", jwtVerify, eventController.addComment);
 
 
 router.delete("/:eventId", jwtVerify, eventController.deleteEvent);
+router.delete("/:eventId/deleteComments/:commentId", jwtVerify, eventController.deleteComments);
 
 
 router.get("/", eventController.getAllEvents);

@@ -4,9 +4,8 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const { BlobServiceClient } = require("@azure/storage-blob");
 const userRoutes = require("./routes/userRoutes.js");
-const socketIo = require('socket.io');
+const socketIo = require('socket.io'); 
 
-const db = require("./db/dbConfig.js");
 const authRoutes = require("./routes/authRoutes.js");
 const eventRoutes = require("./routes/eventRoutes.js");
 
@@ -51,14 +50,11 @@ app.use('/api/events', eventRoutes);
 app.use('/api/userEvents', userRoutes);
 
 
-// Azure Blob Storage setup
 const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
 const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
 
-// Multer setup for file upload
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Azure Blob Storage upload function
 async function uploadBlob(containerName, blobName, fileBuffer) {
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -66,7 +62,6 @@ async function uploadBlob(containerName, blobName, fileBuffer) {
     return blockBlobClient.url;
 }
 
-// File upload route
 app.post('/api/upload', upload.single('file'), async (req, res) => {
     try {
         const containerName = "youthmeet-images";
