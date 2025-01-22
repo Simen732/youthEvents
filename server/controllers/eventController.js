@@ -120,12 +120,13 @@ const eventController = {
         try {
           const { eventId, comment } = req.body; // Get eventId and comment from the body
           const userId = req.user.id; 
+          const userName = req.user.username
           const io = req.app.get('io');
         
           // Use eventId from the request body
           const [result] = await db.query(
-            'INSERT INTO comments (iduser, idevent, comment_text) VALUES (?, ?, ?)',
-            [userId, eventId, comment]
+            'INSERT INTO comments (iduser, idevent, comment_text, userName) VALUES (?, ?, ?, ?)',
+            [userId, eventId, comment, userName]
           );
         
           if (result.affectedRows === 1) {
@@ -147,12 +148,40 @@ const eventController = {
 
     getComments: async (req, res) => {
         try{
-            console.log("Hent comments")
+            const {eventId} = req.params;
+            const [comments] = await db.query(
+                'SELECT * FROM comments WHERE idevent = ?',
+                [eventId]
+              );
+            // console.log(comments)
+            res.status(201).json(comments);
+
         }
         catch (error){
             console.log(error)
         }
-    },
+    },    
+    deleteComments: async (req, res) => {
+        try {
+          const { eventId, commentId } = req.params;
+          const userId = req.user.id;
+          
+          const [deleteResult] = await db.query(
+            'DELETE FROM comments WHERE idevent = ? AND id = ? AND iduser = ?',
+            [eventId, commentId, userId]
+          );
+          
+          if (deleteResult.affectedRows > 0) {
+            res.json({ message: 'Comment deleted successfully' });
+          } else {
+            res.status(404).json({ message: 'Comment not found or you do not have permission to delete it' });
+          }
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'An error occurred while deleting the comment' });
+        }
+      },
+      
 
     leaveEvent: async (req, res) => {
         try {

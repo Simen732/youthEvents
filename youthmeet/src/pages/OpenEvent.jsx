@@ -10,6 +10,7 @@ export default function OpenEvent() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [user, setUser] = useState(null);
   const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,6 +80,23 @@ export default function OpenEvent() {
     fetchEventData();
   }, [idevent]);
 
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/events/${idevent}/getComments`,
+          { withCredentials: true }
+        );
+        setComments(response.data);
+        console.log(response)
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    fetchComments();
+  }, [idevent]);
+
   const handleJoinLeave = async () => {
     if (!user) {
       window.location.href = '/login';
@@ -101,14 +119,38 @@ export default function OpenEvent() {
     try {
       await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/events/addComment`,
-        { comment, eventId: idevent }, // Send eventId in the body
+        { comment, eventId: idevent },
         { withCredentials: true }
       );
       setComment('');
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${idevent}/getComments`,
+        { withCredentials: true }
+      );
+      setComments(response.data);
     } catch (error) {
       console.error('Error adding comment:', error);
     }
   };
+
+  const handleCommentClick = async (commentId) => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${idevent}/deleteComments/${commentId}`,
+        { withCredentials: true }
+      );
+      console.log('Comment deleted successfully');
+      // Refresh comments after deletion
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${idevent}/getComments`,
+        { withCredentials: true }
+      );
+      setComments(response.data);
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  };
+  
   
 
   if (!eventData) return <div className='mt-16'>Loading...</div>;
@@ -170,6 +212,25 @@ export default function OpenEvent() {
               </button>
             )}
           </div>
+
+          <div className="mt-6">
+            <h2 className="font-oranienbaum font-bold text-xl mb-3">Comments</h2>
+            {comments.map((comment, index) => (
+              <div 
+                key={index} 
+                className="bg-gray-100 p-2 mb-2 rounded cursor-pointer hover:bg-gray-200"
+                onClick={() => {
+                  // console.log(comment.id);
+                  // You can also call handleCommentClick here if needed
+                  handleCommentClick(comment.id);
+                }}
+              >
+                <small>{comment.userName}</small>
+                <p>{comment.comment_text}</p>
+              </div>
+            ))}
+          </div>
+
 
           <div className="mt-6">
             <h2 className="font-oranienbaum font-bold text-xl mb-3">Add a Comment</h2>
